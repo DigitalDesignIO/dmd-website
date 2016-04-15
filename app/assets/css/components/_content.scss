@@ -1,0 +1,104 @@
+@import 'globals';
+
+.content {
+  margin-bottom: 100px;
+
+  &.flex {
+    align-items: flex-end;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-end;
+  }
+
+  a {
+    color: $primary-color;
+    text-decoration: underline;
+
+    &:hover {
+      background-color: $primary-color-fade;
+      color: $white;
+    }
+  }
+
+  img {
+    height: auto;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  p {
+    margin-bottom: 30px;
+  }
+
+  .img-caption {
+    color: $primary-color-fade;
+    font-size: 17px;
+    line-height: 1.2;
+    margin: 0 0 -5px;
+  }
+}
+
+.button.round {
+  font-weight: bold;
+  padding: 10px 20px;
+  margin-bottom: 20px;
+  background-color: $primary-color;
+  color: $secondary-color;
+  text-decoration: none;
+
+  &:hover {
+    color: $white;
+    background-color: $secondary-color;
+  }
+
+  &.button-apply {
+    font-size: 60px;
+    height: 120px;
+    line-height: 1.6;
+    margin-bottom: 100px;
+    width: 100%;
+    text-decoration: none;
+
+    &:hover {
+      color: $white;
+      background-color: $secondary-color;
+    }
+  }
+}
+
+.button.back-to-top {
+  z-index: 500;
+  background: no-repeat center/80% url('../images/arrow.svg');
+  position: fixed;
+  visibility: hidden;
+  right: 10px;
+  bottom: 10px;
+  height: 54px;
+  width: 50px;
+  transform: rotate(-90deg);
+
+  &:hover {
+    background: no-repeat center/80% url('../images/arrow-hover.svg');
+    background-color: transparent;
+  }
+}
+
+@media #{$small-only} {
+  .content {
+    margin-bottom: 100px;
+    
+    &.flex {
+      display: block;
+    }
+
+    .img-caption {
+      margin: 10px 0;
+    }
+  }
+
+  .button.round.button-apply {
+    font-size: 24px;
+    font-weight: 900;
+    height: 60px;
+  }
+}

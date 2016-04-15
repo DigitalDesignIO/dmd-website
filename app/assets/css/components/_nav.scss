@@ -1,0 +1,142 @@
+@import 'globals';
+
+[data-magellan-expedition] {
+  padding: 0;
+}
+
+[data-magellan-expedition-clone] {
+  position: fixed;
+  visibility: hidden;
+}
+
+.navbar {
+  width: 100%;
+  z-index: 9999;
+  margin-bottom: 0;
+  position: fixed;
+}
+
+.navbar-default {
+  border-color: $white;
+
+  .container-fluid {
+    padding-left: 9px;
+    padding-right: 9px;
+  }
+
+  .navbar-brand {
+    color: $primary-color;
+    font-size: 30px;
+    font-weight: bold;
+    font-family: 'Circular-Book', sans-serif;
+    padding: 28px 10px;
+
+    &:hover {
+      color: $primary-color-fade;
+    }
+
+    > img {
+      display: inline-block;
+      margin-right: 25px;
+    }
+  }
+
+  .navbar-nav > li {
+    > a,
+    .flag-switch {
+      background: transparent;
+      border-color: transparent;
+      border-radius: 0;
+      border-style: solid;
+      border-width: 3px 0 0;
+      color: $black;
+      display: inline-block;
+      font-size: 24px;
+      margin: 0 1rem;
+      padding: 38px 0;
+      text-decoration: none;
+
+      &:hover {
+        color: $primary-color;
+      }
+    }
+  }
+
+  .navbar-nav > .active > a {
+    background-color: transparent;
+    border-color: $primary-color;
+    color: $secondary-color;
+
+    &:hover,
+    &:focus {
+      background-color: transparent;
+      color: $primary-color;
+    }
+  }
+}
+
+
+@media (min-width: 1040px) {
+  .navbar {
+    border-radius: 0;
+  }
+
+  .navbar-default .navbar-nav > li > a,
+  .flag-switch {
+    font-size: 20px;
+  }
+  
+  .navbar>.container-fluid .navbar-brand { 
+    margin: 0 15px 0 25px;
+  }
+}
+
+@media (max-width: 1039px) {
+  .nav > .active {
+    background-color: $primary-color;
+  }
+
+  .navbar-default {
+
+    .navbar-brand {
+      font-size: 20px;
+      padding: 5px 10px;
+
+      > img {
+        margin-right: 10px;
+      }
+    }
+
+    .navbar-collapse,
+    .navbar-form {
+      border-style: solid;
+      border-width: 1px 0;
+      background-color: $white;
+    }
+
+    .navbar-nav > .active {
+      > a {
+        background-color: transparent;
+        border-color: transparent;
+        color: $white;
+      }
+
+      > a:hover,
+      a:focus {
+        color: $white;
+      }
+
+    }
+
+    .navbar-nav > li {
+      > a {
+        padding: 20px 0;
+        margin: 0 2rem;
+      }
+
+      .flag-switch {
+        padding: 0;
+      }
+    }
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "name": "",
+  "css_prefix_text": "icon-",
+  "css_use_suffix": false,
+  "hinting": true,
+  "units_per_em": 1000,
+  "ascent": 850,
+  "glyphs": [
+    {
+      "uid": "240979dd9fcf2e46250e66792edb8092",
+      "css": "facebook",
+      "code": 59392,
+      "src": "brandico"
+    },
+    {
+      "uid": "8045477f6a7ef0bd7caff130ad25b88d",
+      "css": "facebook-rect",
+      "code": 59393,
+      "src": "brandico"
+    },
+    {
+      "uid": "d611dd319d8c13b4551dc5bd85c1bdfd",
+      "css": "twitter",
+      "code": 59394,
+      "src": "brandico"
+    },
+    {
+      "uid": "4c01f5d3ba5fbf029bca8630cce41e6a",
+      "css": "twitter-bird",
+      "code": 59395,
+      "src": "brandico"
+    },
+    {
+      "uid": "70cdf244c51630e09038659d1dcbee87",
+      "css": "vimeo",
+      "code": 59396,
+      "src": "brandico"
+    },
+    {
+      "uid": "31483d870b3f14ac12bdfe7331a6af99",
+      "css": "vimeo-rect",
+      "code": 59397,
+      "src": "brandico"
+    },
+    {
+      "uid": "24d1008bf15b6c02a5e7a6af026987dd",
+      "css": "github-text",
+      "code": 59399,
+      "src": "brandico"
+    },
+    {
+      "uid": "4a0bb1ac004980bb3837560d4c9e8cee",
+      "css": "github",
+      "code": 59400,
+      "src": "brandico"
+    },
+    {
+      "uid": "155970c9f52b23f31026bab7163caa63",
+      "css": "codepen",
+      "code": 59402,
+      "src": "brandico"
+    }
+  ]
+}

@@ -1,0 +1,237 @@
+// bower:scss
+// endbower
+
+// imports
+@import '../../bower_components/foundation/scss/foundation/settings';
+
+$row-width: rem-calc(1220) !default;
+$column-gutter: rem-calc(20);
+$large-breakpoint:  em-calc(1280) !default;
+
+@import '../../bower_components/foundation/scss/foundation/components/global';
+@import '../../bower_components/foundation/scss/foundation/components/buttons';
+@import '../../bower_components/foundation/scss/foundation/components/grid';
+@import '../../bower_components/foundation/scss/foundation/components/magellan';
+@import '../../bower_components/foundation/scss/foundation/components/orbit';
+@import '../../bower_components/foundation/scss/foundation/components/visibility';
+
+@import 'components/globals';
+@import 'components/nav';
+// @import 'components/flag';
+@import 'components/landing';
+@import 'components/content';
+@import 'components/content-table';
+@import 'components/content-facts';
+@import 'components/content-team';
+@import 'components/content-list';
+@import 'components/quotes';
+@import 'components/footer';
+
+// Font-faces
+@font-face {
+  font-family: 'Circular-Black';
+  src: url('../fonts/lineto-circular-black.eot');
+  src: url('../fonts/lineto-circular-black.eot?#iefix') format('embedded-opentype'),
+      url('../fonts/lineto-circular-black.woff') format('woff'),
+      url('../fonts/lineto-circular-black.ttf') format('truetype'),
+      url('../fonts/lineto-circular-black.svg#lineto-circular-black') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Circular-Book';
+  src: url('../fonts/lineto-circular-book.eot');
+  src: url('../fonts/lineto-circular-book.eot?#iefix') format('embedded-opentype'),
+      url('../fonts/lineto-circular-book.woff') format('woff'),
+      url('../fonts/lineto-circular-book.ttf') format('truetype'),
+      url('../fonts/lineto-circular-book.svg#lineto-circular-book') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'fontello';
+  src: url('../fonts/fontello.eot?6783123');
+  src: url('../fonts/fontello.eot?6783123#iefix') format('embedded-opentype'),
+       url('../fonts/fontello.woff?6783123') format('woff'),
+       url('../fonts/fontello.ttf?6783123') format('truetype'),
+       url('../fonts/fontello.svg?6783123#fontello') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+ 
+[class^='icon-']:before,
+[class*=' icon-']:before {
+  font-family: 'fontello';
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+ 
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  margin-right: .2em;
+  text-align: center;
+  /* opacity: .8; */
+ 
+  /* For safety - reset parent styles, that can break glyph codes*/
+  font-variant: normal;
+  text-transform: none;
+ 
+  /* fix buttons height, for twitter bootstrap */
+  line-height: 1em;
+ 
+  /* Animation center compensation - margins should be symmetric */
+  /* remove if not needed */
+  margin-left: .2em;
+ 
+  /* you can be more comfortable with increased icons size */
+  /* font-size: 120%; */
+ 
+  /* Font smoothing. That was taken from TWBS */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+ 
+  /* Uncomment for 3D effect */
+  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+}
+ 
+.icon-facebook:before { 
+  color: $white;
+  content: '\e800';
+  text-decoration: none;
+}
+
+.icon-facebook-rect:before { content: '\e801'; }
+.icon-twitter:before { content: '\e802'; }
+.icon-twitter-bird:before { content: '\e803'; }
+.icon-vimeo:before { content: '\e804'; }
+.icon-vimeo-rect:before { content: '\e805'; }
+.icon-github-text:before { content: '\e807'; }
+.icon-github:before { content: '\e808'; }
+.icon-codepen:before { content: '\e80a'; }
+
+// basics
+.browsehappy {
+  background: $white;
+  color: $black;
+  margin: .2em 0;
+  padding: .2em 0;
+}
+
+html,
+body {
+  background-color: $body-bg;
+  color: $secondary-color;
+  font-family: 'Circular-Black', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  color: $primary-color;
+  font-size: 60px;
+  margin: 0;
+}
+
+h2 {
+  color: $secondary-color;
+  font-size: 32px;
+  margin: 0;
+}
+
+h3 {
+  color: $black;
+  font-size: 25px;
+}
+
+h4 {
+  color: $secondary-color;
+  font-size: 32px;
+  line-height: 1;
+  margin: 0 0 20px;
+  padding: 0;
+  text-decoration: underline;
+}
+
+h5 {
+  color: $primary-color;
+  font-size: 60px;
+  line-height: 1;
+  margin: 0 0 30px;
+  padding: 0;
+}
+
+p {
+  font-family: 'Circular-Book', sans-serif;
+  font-size: 20px;
+}
+
+.extern {
+  position: relative;
+
+  &:before {
+    background: url('../images/arrow_blank.svg') bottom left no-repeat;
+    background-size: 30px 30px;
+    content: '';
+    height: 25px;
+    left: -28px;
+    position: absolute;
+    width: 25px;
+  }
+
+  &:hover:before {
+    background: url('../images/arrow_blank_hover.svg') bottom left no-repeat;
+    background-size: 30px 30px;
+    content: '';
+    height: 25px;
+    left: -28px;
+    position: absolute;
+    width: 25px;
+  }
+}
+
+.button {
+  color: $black;
+  font-family: 'Circular-Black', sans-serif;
+
+  &:hover {
+    background-color: $secondary-color;
+    color: $white;
+  }
+
+  &.facebook {
+    background-color: $color-facebook;
+    color: $white; 
+    margin: 0 0 .5rem;
+    padding: .5rem 1.8rem;
+  }
+
+  &.facebook:hover {
+    background-color: $color-facebook-hover;
+  }
+}
+
+@media #{$small-only} {
+  h1 {
+    font-size: 26px;
+  }
+
+  h2 {
+    font-size: 16px;
+  }
+
+  h4 {
+    font-size: 20px;
+  }
+
+  h5 {
+    font-size: 28px;
+    margin: 0 0 20px;
+  }
+
+  p {
+    font-size: 16px;
+  }
+}

@@ -1,0 +1,14 @@
+linters:
+  SelectorDepth:
+    enabled: true
+    max_depth: 4
+
+  NestingDepth:
+    enabled: true
+    max_depth: 4
+
+  PropertySortOrder:
+    enabled: false
+    ignore_unspecified: false
+    min_properties: 2
+    separate_groups: false

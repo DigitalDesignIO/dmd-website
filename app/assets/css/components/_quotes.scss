@@ -1,0 +1,26 @@
+@import 'globals';
+
+.quote-wrapper {
+  background-color: $primary-color;
+}
+
+.quote {
+  background-color: $primary-color;
+  margin-bottom: 200px;
+
+  p {
+    color: $white;
+    margin: 0 0 20px;
+    font-size: 36px;
+  }
+}
+
+@media #{$small-only} { 
+  .quote {
+    margin-bottom: 80px;
+
+    p {
+      font-size: 22px;
+    }  
+  }
+}

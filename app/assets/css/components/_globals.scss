@@ -1,0 +1,67 @@
+// @varibales colors
+
+$primary-color: #0c2;
+$primary-color-fade: #4c5;
+$secondary-color: #112;
+$table-primary: $primary-color;
+$table-secondary: #49f;
+$table-choice: #008080;
+$body-bg: #faf8fa;
+$white: #fff;
+$light-white: #999;
+$darker-white: #ddd;
+$black: #222;
+$color-facebook: #4c69ba;
+$color-facebook-hover: #415A8F;
+
+// helper classes
+
+.border-color-primary { border-color: $table-primary !important; }
+.border-color-secondary { border-color: $table-secondary !important; }
+.border-color-choice { border-color: $table-choice !important; }
+.border-color-black { border-color: $black !important; }
+.border-color-darker-white { border-color: $darker-white !important; }
+
+.font-xl {
+  color: $darker-white;
+  font-size: 51px !important;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-muted {
+  color: $light-white;
+}
+
+.no-padding-right {
+  padding-right: 0;
+}
+
+.no-padding-left {
+  padding-left: 0;
+}
+
+.no-padding-lr {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.margin-bottom-0 {
+  margin-bottom: 0 !important;
+}
+
+@media #{$medium-up} {
+  .margin-bottom-100-md-up {
+    margin-bottom: 100px;
+  }
+}
+
+@media #{$small-only} { 
+  .margin-bottom-50-xs-only {
+    margin-bottom: 50px;
+  }
+}

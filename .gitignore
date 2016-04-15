@@ -1,0 +1,6 @@
+app/thumbs/*
+app/site/config/license.php
+app/content/*
+app/site/accounts/*
+credentials.js
+node_modules

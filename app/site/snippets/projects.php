@@ -1,0 +1,56 @@
+  <!-- projects -->
+
+    <!-- scroll-to anker mark -->
+    <span data-magellan-destination="<?php echo $data->title()->html() ?>">
+      <a name="<?php echo $data->title()->html() ?>"></a>
+    </span>
+
+    <!-- ./content-block -->
+    <div class="row">
+      <div class="medium-12 columns"><h4><?php echo $data->title()->html() ?></h4></div>
+      <div class="medium-12 columns"><h5><?php echo $data->headline()->html() ?></h5></div>
+    </div>
+
+    <div class="row content flex">
+      <div class="medium-offset-3 medium-7 columns">
+
+        <?php echo $data->text()->kirbytext() ?>
+        <div class="grid row">
+
+        <?php foreach(page('projects')->children()->visible() as $project):?>
+          <div class="medium-12 large-6 columns">
+            <figure class="effect-<?php echo $project->effect()->kirbytextRaw() ?>">
+
+              <?php if($image = $project->images()->sortBy('sort', 'asc')->first()): ?>
+
+                <?php echo thumb($image, array('width' => 355, 'height' => 250, 'crop' => true)); ?>
+
+                <!-- <img src="<?php echo $image->url() ?>" alt="<?php echo $project->title()->html() ?>" >
+ -->
+              <?php endif ?>
+
+              <figcaption>
+                <h2><?php echo $project->headline()->kirbytextRaw() ?></h2>
+                <p><?php echo $project->subheadline()->kirbytextRaw() ?></p>
+
+                <a href="<?php echo $project->url() ?>">View more</a>
+
+              </figcaption>     
+            </figure>
+          </div>
+
+
+        <?php endforeach ?>
+
+        <?php
+          // foreach(page('projects')->builder()->toStructure() as $section):
+          //   snippet( snippet('sections/' . $section->_fieldset(), array('section' => $section)) );
+          // endforeach
+        ?>
+
+        </div>
+      </div>
+      <div class="medium-2 columns">
+      </div>
+    </div>
+    <!-- ./content-block -->

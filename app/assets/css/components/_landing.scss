@@ -1,0 +1,157 @@
+@import 'globals';
+
+.landing {
+  overflow: hidden;
+  width: 100%;
+  left: 0;
+  top: 100px;
+  position: relative;
+  margin-bottom: 170px;
+
+  .new {
+    position: absolute;
+    right: 10%;
+    top: 20%;
+    padding: 10px 20px;
+    color: $primary-color;
+    font-size: 32px;
+    font-weight: bold;
+    background-color: $white;
+    width: 200px;
+
+    .new-image > img {
+      position: absolute;
+      width: 60px;
+      min-width: initial;
+      left: -75px;
+      top: 28px;
+    }
+
+    .new-text > span {
+      color: $secondary-color;
+    }
+  }
+
+  .title-wrapper {
+    position: absolute;
+    bottom: 20%;
+    left: 10%;
+
+    .title {
+      display: inline-block;
+      margin-bottom: 20px;
+      padding: 0 20px;
+      background-color: $white;
+      color: $secondary-color;
+    }
+
+    .sub-title {
+      padding: 10px 20px;
+      background-color: $primary-color;
+    }
+  }
+}
+
+.orbit-bullets-container {
+  position: absolute;
+  top: 0;
+  right: 49%;
+
+  .orbit-bullets li {
+    background-color: $white;
+    
+    &.active {
+      background-color: $primary-color;
+    }
+  }
+}
+
+.orbit-container {
+  .orbit-slides-container > * .orbit-caption {
+    font-size: 14px;
+    color: $white;
+    display: inline-block;
+    right: 10%;
+    bottom: 10px;
+    max-width: 380px;
+    width: auto;
+    background-color: $secondary-color;
+    border: 2px solid $secondary-color;
+    border-radius: 5px;
+    padding: 2px 5px;
+  }
+
+  .orbit-slides-container img {
+    width: auto;
+    max-width: initial;
+    min-width: 100%;
+  }
+
+  .orbit-timer.paused > span {
+    border-left-color: $white;
+  }
+
+  .orbit-timer .orbit-progress {
+    background-color: $white;
+  }
+
+  .orbit-prev:hover,
+  .orbit-next:hover {
+    background-color: transparent;
+  }
+
+  .orbit-next > span {
+    border-left-color: $primary-color;
+
+    &:hover {
+      border-left-color: $primary-color-fade;
+    }
+  }
+
+  .orbit-prev > span {
+    border-right-color: $primary-color;
+
+    &:hover {
+      border-right-color: $primary-color-fade;
+    }
+  }
+
+  .orbit-next:hover > span {
+    border-left-color: $primary-color-fade;
+  }
+
+  .orbit-prev:hover > span {
+    border-right-color: $primary-color-fade;
+  }
+}
+
+@media (max-width: 1039px) {
+  .landing {
+    top: 50px;
+  }
+}
+
+@media #{$small-only} {
+  .landing {
+    margin-bottom: 100px;
+
+    .new {
+      right: 4%;
+    }
+
+    .title-wrapper {
+      bottom: 20%;
+      left: 4%;
+
+      .sub-title {
+        padding: 10px 15px;
+      }
+    }
+  }
+
+  .orbit-container {
+    .orbit-slides-container > * .orbit-caption {
+      right: 4%;
+    }
+  }
+}

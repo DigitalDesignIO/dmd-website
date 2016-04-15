@@ -1,0 +1,39 @@
+@import 'globals';
+
+.team-wrapper {
+  margin-bottom: 100px;
+}
+
+.content.team {
+  margin-bottom: 0;
+
+  .portrait {
+    margin-top: 20px;
+    border-radius: 50%;
+  }
+
+  .description {
+    margin-bottom: 60px;
+
+    p {
+      margin: 0 0 30px;
+    }
+
+    .pers-name {
+      margin: 15px 0 5px;
+      font-size: 25px;
+      font-family: 'Circular-Black', sans-serif;
+      color: $black;
+    }
+  }
+}
+
+@media #{$small-only} {
+  .team-wrapper {
+    margin-bottom: 40px;
+  }
+
+  .content.team .description .pers-name {
+    font-size: 20px;
+  }
+}

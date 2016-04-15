@@ -1,0 +1,55 @@
+/*
+ * Legal Disclaimer
+ *
+ * These Fonts are licensed only for use on these domains and their subdomains:
+ * digitaldesign.io
+ *
+ * It is illegal to download or use them on other websites.
+ *
+ * While the @font-face statements below may be modified by the client, this
+ * disclaimer may not be removed.
+ *
+ * Lineto.com, 2015
+ */
+
+
+/*
+ *
+ * INSTRUCTIONS
+ *
+ * Copy the Legal Disclaimer and the @font-faces statements to your regular CSS file.
+ * The fonts folder(s) should be placed relative to the regular CSS file.
+ *
+ * You can use either the complete or subsetted fonts:
+ * If you don’t require the entire range of characters, you can use the smaller, subsetted webfonts instead.
+ * See "Glyphs & Languages" for an overview of the characters in the *_subsetted.html file in the root directory of this package.
+ *
+ */
+
+
+/* Complete */
+
+@font-face {
+    font-family: "Circular-Black";
+    src:url("fonts/lineto-circular-black.eot");
+    src:url("fonts/lineto-circular-black.eot?#iefix") format("embedded-opentype"),
+        url("fonts/lineto-circular-black.woff") format("woff"),
+        url("fonts/lineto-circular-black.ttf") format("truetype"),
+        url("fonts/lineto-circular-black.svg#lineto-circular-black") format("svg");
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+/* Subsetted */
+
+@font-face {
+    font-family: "Circular-Black-S";
+    src:url("fonts_subsetted/lineto-circular-black.eot");
+    src:url("fonts_subsetted/lineto-circular-black.eot?#iefix") format("embedded-opentype"),
+        url("fonts_subsetted/lineto-circular-black.woff") format("woff"),
+        url("fonts_subsetted/lineto-circular-black.ttf") format("truetype"),
+        url("fonts_subsetted/lineto-circular-black.svg#lineto-circular-black") format("svg");
+    font-weight: normal;
+    font-style: normal;
+}

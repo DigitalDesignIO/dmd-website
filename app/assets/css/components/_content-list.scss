@@ -1,0 +1,31 @@
+@import 'globals';
+
+.content-list {
+  margin-bottom: 100px;
+
+  .icons {
+    text-align: right;
+
+    img {
+      width: 60px;
+      margin-right: 20px;
+    }
+  }
+
+  .text {
+    font-size: 36px;
+    font-family: 'Circular-Book', sans-serif;
+    line-height: 1.8;
+    margin: 0 0 35px;
+  }
+}
+
+@media #{$small-only} {
+  .content-list {
+    margin-bottom: 100px;
+
+    .text {
+      font-size: 16px;
+    }
+  }
+}
