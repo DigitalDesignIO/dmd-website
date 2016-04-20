@@ -99,7 +99,7 @@ gulp.task('clean', $.del.bind(null, ['dist']));
 
 // Build Production Files, the Default Task
 gulp.task('build', ['clean'], function (cb) {
-  $.runSequence(['useref', 'scripts', 'styles', 'fonts', 'images', 'copy'], cb);
+  $.runSequence(['useref', 'scripts', 'styles', 'fonts', 'images', 'copy'], 'rewrite', cb);
 });
 
 gulp.task('default',  function () {
