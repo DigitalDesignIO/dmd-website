@@ -10,12 +10,12 @@
   <meta name="description" content="<?php echo $site->description()->html() ?>">
   <meta name="keywords" content="<?php echo $site->keywords()->html() ?>">
 
-  <!-- build:css(app) assets/css/main.min.css -->
-  <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-  <link rel="stylesheet" href="assets/css/hover.css">
-  <link rel="stylesheet" href="assets/css/main.css">
-  <!-- endbuild -->
-  
+  <?php // echo css('assets/css/bootstrap.min.css') ?>
+  <?php // echo css('assets/css/main.css') ?>
+  <?php // echo css('assets/css/hover.css') ?>
+
+  <link rel="stylesheet" href="assets/css/main.min.css">
+  <hello>
 </head>
 <body>
 

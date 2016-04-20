@@ -1,7 +1,7 @@
 'use strict';
 // generated on 2014-07-14 using generator-gulp-webapp 0.1.0
 
-var credentials = require('./ftppw');
+var credentials = require('./credentials');
 
 var gulp = require('gulp'),
 ftp = require( 'vinyl-ftp' ),
@@ -46,11 +46,19 @@ gulp.task('useref', function () {
 
 gulp.task('scripts', function(){
     return gulp.src('app/scripts/*.js')
-    .pipe($.jshint())
-    .pipe($.jshint.reporter(require('jshint-stylish')))
-    // .pipe($.concat('app.js'))
-    .pipe(gulp.dest('./dist/scripts'))
-    .pipe($.size());
+        .pipe($.jshint())
+        .pipe($.uglify())
+        .pipe($.jshint.reporter(require('jshint-stylish')))
+        .pipe($.concat('vendor.js'))
+        .pipe(gulp.dest('./dist/scripts'))
+        .pipe($.size());
+    
+});
+
+gulp.task('rewrite', function(){
+   return gulp.src('dist/site/snippets/header.php', { base: './' }) //must define base so I can overwrite the src file below. Per http://stackoverflow.com/questions/22418799/can-gulp-overwrite-all-src-files
+        .pipe($.replace(/<link rel=\"stylesheet\" href=\"assets\/css\/main.min.css\">/g, '<?php echo css(\"assets/css/main.min.css\") ?>'))
+        .pipe(gulp.dest('./')); //Write the file back to the same spot. 
 });
 
 gulp.task('images', function () {
@@ -71,8 +79,7 @@ gulp.task('copy', function () {
     '!app/scripts/**/*.js',
     '!app/assets/images/**/*.*',
     '!app/assets/css/**/*',
-    '!app/site/snippets/header.php',
-    '!app/content/**/*'
+    '!app/site/snippets/header.php'
     ],{
      dot:true
     }).pipe(gulp.dest('dist'))
@@ -114,7 +121,7 @@ gulp.task('dev', $.shell.task([
 
 gulp.task('serve', function () {
   $.browserSync({
-    proxy: "localhost/",
+    proxy: "localhost/kirby/app",
     port: 80
   });
 
@@ -142,12 +149,13 @@ gulp.task( 'deploy', function () {
 
     var globs = [
         'dist/**',
+        '!dist/content/**'
     ];
 
     // using base = '.' will transfer everything to /public_html correctly
     // turn off buffering in gulp.src for best performance
 
-    return gulp.src( globs, { cwd: 'htdocs', buffer: false } )
+    return gulp.src( globs, { cwd: 'htdocs/new', buffer: false } )
         .pipe( conn.newer( '/test' ) ) // only upload newer files
         .pipe( conn.dest( '/test' ) );
 

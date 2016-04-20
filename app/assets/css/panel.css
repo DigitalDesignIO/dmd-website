@@ -27,10 +27,6 @@
   background-color: #4c5;
 }
 
-.message-is-notice .message-content {
-  
-}
-
 .btn-rounded {
   border: 2px solid #4c5;
   background: #4c5;
@@ -44,18 +40,17 @@
 
 body.ltr .breadcrumb-label:after {
   right: 0;
-  background: -webkit-linear-gradient(left,transparent,#4c5);
-  background: -webkit-linear-gradient(left,transparent,#4c5);
-  background: -moz-linear-gradient(left,transparent,#4c5);
-  background: -ms-linear-gradient(left,transparent,#4c5);
-  background: linear-gradient(left,transparent,#4c5);
+  background: -webkit-linear-gradient(to left,transparent,#4c5);
+  background: -webkit-linear-gradient(to left,transparent,#4c5);
+  background: -moz-linear-gradient(to left,transparent,#4c5);
+  background: -ms-linear-gradient(to left,transparent,#4c5);
+  background: linear-gradient(to left,transparent,#4c5);
 }
 
 .team-portrait {
   border-radius: 50%;
   display: inline-block;
-  float: left;
-  margin: 0px 10px 10px 0;
+  margin: 0 10px 10px 0;
 }
 
 .team-teaserpic {

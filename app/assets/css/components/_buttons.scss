@@ -1,0 +1,57 @@
+
+.button {
+  color: $black;
+  font-family: 'Circular-Black', sans-serif;
+
+  &:hover {
+    background-color: $secondary-color;
+    color: $white;
+  }
+
+  &.facebook {
+    background-color: $color-facebook;
+    color: $white; 
+    margin: 0 0 .5rem;
+    padding: .5rem 1.8rem;
+  }
+
+  &.facebook:hover {
+    background-color: $color-facebook-hover;
+  }
+}
+
+.button.round {
+  font-weight: bold;
+  padding: 10px 20px;
+  margin-bottom: 20px;
+  background-color: $primary-color;
+  color: $secondary-color;
+  text-decoration: none;
+
+  &:hover {
+    color: $white;
+    background-color: $secondary-color;
+  }
+
+  &.button-apply {
+    font-size: 60px;
+    height: 120px;
+    line-height: 1.6;
+    margin-bottom: 100px;
+    width: 100%;
+    text-decoration: none;
+
+    &:hover {
+      color: $white;
+      background-color: $secondary-color;
+    }
+  }
+}
+
+@media #{$small-only} {
+  .button.round.button-apply {
+    font-size: 24px;
+    font-weight: 900;
+    height: 60px;
+  }
+}

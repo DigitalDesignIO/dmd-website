@@ -4,3 +4,5 @@ app/content/*
 app/site/accounts/*
 credentials.js
 node_modules
+dist/
+.vscode/

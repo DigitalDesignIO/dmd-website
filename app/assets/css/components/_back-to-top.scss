@@ -1,0 +1,17 @@
+
+.button.back-to-top {
+  z-index: 500;
+  background: no-repeat center/80% url('../images/arrow.svg');
+  position: fixed;
+  visibility: hidden;
+  right: 10px;
+  bottom: 10px;
+  height: 56px;
+  width: 50px;
+  transform: rotate(-90deg);
+
+  &:hover {
+    background: no-repeat center/80% url('../images/arrow-hover.svg');
+    background-color: transparent;
+  }
+}
