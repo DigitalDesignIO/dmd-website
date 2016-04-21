@@ -6,3 +6,4 @@ credentials.js
 node_modules
 dist/
 .vscode/
+thumbs/
