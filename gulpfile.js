@@ -1,11 +1,11 @@
 'use strict';
-// generated on 2014-07-14 using generator-gulp-webapp 0.1.0
 
 var credentials = require('./credentials');
 
 var gulp = require('gulp'),
 ftp = require( 'vinyl-ftp' ),
 sass = require('gulp-sass');
+
 // load plugins
 var $ = require('gulp-load-plugins')({
      pattern: '*',
@@ -35,29 +35,30 @@ gulp.task('styles', ['sass'], function() {
 });
 
 gulp.task('useref', function () {
-    return gulp.src('app/site/snippets/header.php')
+    return gulp.src(['app/site/snippets/header.php', 'app/site/snippets/footer.php'])
         .pipe($.useref({searchPath: 'app/'}))
-        .pipe($.if('*.php', $.rename('site/snippets/header.php')))
+        .pipe($.if('**/header.php', $.rename('site/snippets/header.php')))
+        .pipe($.if('**/footer.php', $.rename('site/snippets/footer.php')))
         .pipe($.if('*.js', $.uglify()))
         .pipe($.if('*.css', $.csso()))
         .pipe(gulp.dest('dist'))
         .pipe($.size());
 });
 
-gulp.task('scripts', function(){
-    return gulp.src('app/scripts/*.js')
-        .pipe($.jshint())
-        .pipe($.uglify())
-        .pipe($.jshint.reporter(require('jshint-stylish')))
-        .pipe($.concat('vendor.js'))
-        .pipe(gulp.dest('./dist/scripts'))
-        .pipe($.size());
-    
-});
+// gulp.task('scripts', function(){
+//     return gulp.src('app/scripts/*.js')
+//         .pipe($.jshint())
+//         .pipe($.uglify())
+//         .pipe($.jshint.reporter(require('jshint-stylish')))
+//         .pipe($.concat('vendor.js'))
+//         .pipe(gulp.dest('./dist/scripts'))
+//         .pipe($.size());
+// });
 
 gulp.task('rewrite', function(){
-   return gulp.src('dist/site/snippets/header.php', { base: './' }) //must define base so I can overwrite the src file below. Per http://stackoverflow.com/questions/22418799/can-gulp-overwrite-all-src-files
-        .pipe($.replace(/<link rel=\"stylesheet\" href=\"assets\/css\/main.min.css\">/g, '<?php echo css(\"assets/css/main.min.css\") ?>'))
+   return gulp.src(['dist/site/snippets/header.php', 'dist/site/snippets/footer.php'], { base: './' }) //must define base so I can overwrite the src file below. Per http://stackoverflow.com/questions/22418799/can-gulp-overwrite-all-src-files
+        .pipe($.if('**/header.php', $.replace(/<link.*href=\"assets\/css\/main\.min\.css\".*>/g, '<?php echo css(\"assets/css/main.min.css\") ?>')))
+        .pipe($.if('**/footer.php', $.replace(/<script.*src=\"scripts\/vendor\.js\".*><\/script>/g, '<?php echo js(\"scripts/vendor.js\") ?>')))
         .pipe(gulp.dest('./')); //Write the file back to the same spot. 
 });
 
@@ -79,7 +80,8 @@ gulp.task('copy', function () {
     '!app/scripts/**/*.js',
     '!app/assets/images/**/*.*',
     '!app/assets/css/**/*',
-    '!app/site/snippets/header.php'
+    '!app/site/snippets/header.php', // dont copy this file cause it gets rewritten by the rewrite task
+    '!app/site/snippets/footer.php' // dont copy this file cause it gets rewritten by the rewrite task
     ],{
      dot:true
     }).pipe(gulp.dest('dist'))
@@ -99,11 +101,11 @@ gulp.task('clean', $.del.bind(null, ['dist']));
 
 // Build Production Files, the Default Task
 gulp.task('build', ['clean'], function (cb) {
-  $.runSequence(['useref', 'scripts', 'styles', 'fonts', 'images', 'copy'], 'rewrite', cb);
+  $.runSequence(['useref', 'styles', 'fonts', 'images', 'copy'], 'rewrite', cb);
 });
 
 gulp.task('default',  function () {
-    console.log('Please choose npm build or npm serve');
+    console.log('Please choose npm run build, npm run deploy or npm run serve');
 });
 
 /*
