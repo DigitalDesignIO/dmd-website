@@ -1,0 +1,6 @@
+label: Text
+type: markdown
+tools:
+  - bold
+  - italic
+  - link

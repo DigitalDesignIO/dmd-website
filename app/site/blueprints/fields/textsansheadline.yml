@@ -1,0 +1,15 @@
+label: Text
+width: 1/1
+type: markdown
+tools:
+  - bold
+  - italic
+  - strikethrough
+  - blockquote
+  - unorderedList
+  - orderedList
+  - link
+  - email
+  - image
+  - line
+required: true

@@ -4,21 +4,9 @@ title: Content Teammitglied
 pages: false
 files: true
 fields:
-  Title:
-    label: Seiten Titel
-    help: Der Seiten Titel ist nur für die Darstellung des Seitennamens im CMS relevant
-    type:  text
-    required: true
-  Headline:
-    label: Überschrift
-    type:  text
-    required: true
-    width: 1/2
-    icon: font
-    help: Maximal 60 Zeichen, minimal 4
-    validate:
-      min: 4
-      max: 60
+  Title: title
+  Headline: headline
+  
   Builder:
     label: Teammitglieder hinzufügen
     type: builder
@@ -40,30 +28,16 @@ fields:
             type: text
             required: true
           picture:
+            extends: picture
             label: Großes teaser Bild
             help: Hier können die Bilder ausgewählt werden, die auf der linken Seite unter "Dateien" gelistet sind. Hinzufügen von neuen Bildern z.B. per Drag and Drop oder per klick auf "hinzufügen".
-            type: select
-            options: images
-            required: true
           caption:
-            label: Bildbeschreibung
-            help: optional
-            type: markdown
-            tools:
-              - bold
-              - italic
-              - link
+            extends: caption
+            label: Bildbeschreibung für großes teaser Bild
           portrait:
+            extends: picture
             label: Kleines Portrait
             help: Hier können die Bilder ausgewählt werden, die auf der linken Seite unter "Dateien" gelistet sind. Hinzufügen von neuen Bildern z.B. per Drag and Drop oder per klick auf "hinzufügen".
-            type: select
-            options: images
-            required: true
-
           text:
+            extends: simpletext
             label: Text zur Person
-            type: markdown
-            tools:
-              - bold
-              - italic
-              - link

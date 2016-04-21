@@ -4,24 +4,19 @@ title: Content Arrowlist
 pages: false
 files: true
 fields:
-  Title:
-    label: Seiten Titel
-    help: Der Seiten Titel ist nur für die Darstellung des Seitennamens im CMS relevant
-    type:  text
-    required: true
-  Headline:
-    label: Überschrift
-    type:  text
-    width: 1/2
-    icon: font
-    required: true
-    help: Maximal 60 Zeichen, minimal 4
-    validate:
-      min: 4
-      max: 60
+  Title: title
+  Headline: headline
   Text:
       label: Text
       type:  markdown
+      tools:
+        - header1
+        - header2
+        - bold
+        - italic
+        - email 
+        - link
+        - arrow
       required: true
       header1: h2
       header2: h3

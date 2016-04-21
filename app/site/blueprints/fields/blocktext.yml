@@ -1,0 +1,17 @@
+label: Text
+type: markdown
+required: true
+tools:
+  - header1
+  - header2
+  - bold
+  - italic
+  - strikethrough
+  - unorderedList
+  - orderedList
+  - link
+  - email
+  - image
+  - button
+header1: h2
+header2: h3

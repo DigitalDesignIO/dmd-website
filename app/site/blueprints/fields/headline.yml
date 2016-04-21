@@ -1,0 +1,9 @@
+label: Überschrift
+type:  text
+width: 1/1
+required: true
+icon: font
+help: Maximal 60 Zeichen, minimal 4
+validate:
+  min: 4
+  max: 60

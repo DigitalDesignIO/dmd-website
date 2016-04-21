@@ -1,0 +1,7 @@
+label: Bildbeschreibung
+help: optional
+type: markdown
+tools:
+  - bold
+  - italic
+  - link

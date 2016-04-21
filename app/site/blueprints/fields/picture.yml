@@ -1,0 +1,4 @@
+label: Bild
+type: select
+options: images
+required: true

@@ -4,28 +4,12 @@ title: Content Timetable
 pages: false
 files: true
 fields:
-  Title:
-    label: Seiten Titel
-    help: Der Seiten Titel ist nur für die Darstellung des Seitennamens im CMS relevant
-    type:  text
-    required: true
-  Headline:
-    label: Stundenplan Überschrift
-    type:  text
-    required: true
-    icon: font
-    help: Maximal 60 Zeichen, minimal 4
-    validate:
-      min: 4
-      max: 60
+  Title: title
+  Headline: headline
 
   Flyer:
+    extends: simpletext
     label: Flyer PDF download
-    type: markdown
-    tools:
-      - bold
-      - italic
-      - link
     help: Für Smartphones wird anstelle des Studienplans eine PDF angeboten
 
   Semester11:

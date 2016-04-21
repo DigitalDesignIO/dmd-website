@@ -27,57 +27,27 @@ fields:
       romeo: Romeo
       sarah: Sarah
       milo: Milo
-
-  Title:
-    label: Seiten Titel
-    help: Der Seiten Titel ist nur für die Darstellung des Seitennamens im CMS relevant
-    type:  text
-    required: true
-  Headline:
-    label: Überschrift
-    type:  text
-    required: true
-    icon: font
-    help: Maximal 60 Zeichen, minimal 4
-    validate:
-      min: 4
-      max: 60
+  Title: title
+  Headline: headline
   Subheadline:
-    label: Unter-Überschrift
-    type:  text
-    required: true
-    icon: font
-    help: Maximal 60 Zeichen, minimal 4
-    validate:
-      min: 4
-      max: 60
+    extends: headline
+    label: Unter-Überschriftyam
   Textleft:
-      label: Linke Spalte
-      width: 1/3
-      type:  markdown
-      tools:
-       - bold
-       - italic
-       - strikethrough
-       - unorderedList
-       - orderedList
-       - link
-  Text:
-      label: Fließtext rechte Spalte
-      width: 2/3
-      type:  markdown
-      tools:
-       - bold
-       - italic
-       - strikethrough
-       - blockquote
-       - unorderedList
-       - orderedList
-       - link
-       - email
-       - image
-       - line
-      required: true
+    label: Linke Spalte
+    width: 1/3
+    type:  markdown
+    tools:
+      - bold
+      - italic
+      - strikethrough
+      - unorderedList
+      - orderedList
+      - link
+  Text: 
+    extends: textsansheadline
+    label: Fließtext rechte Spalte
+    width: 2/3
+    
   Builder:
     label: Zusätzlicher Inhalt
     type: builder
@@ -88,19 +58,8 @@ fields:
           <img src="{{_fileUrl}}{{picture}}" height=120px/></br>
           {{caption}}
         fields:
-          picture:
-            label: Bild
-            type: select
-            options: images
-            required: true
-          caption:
-            label: Bildbeschreibung
-            help: optional
-            type: markdown
-            tools:
-              - bold
-              - italic
-              - link
+          picture: picture
+          caption: caption
       contentprojectvimeo:
         label: Vimeo Video
         entry: >
@@ -111,13 +70,9 @@ fields:
             type: number
             required: true
             help: Vimeo videos haben folgendes Format - https://vimeo.com/15711020. Die letzte Nummer ist die benötigte ID
-          vimeocaption:
+          vimeocaption: 
+            extends: caption
             label: Video caption
-            type: markdown
-            tools:
-              - bold
-              - italic
-              - link
             help: Kurze beschreibung des Videos
       contentprojectyoutube:
         label: Youtube Video
@@ -130,11 +85,7 @@ fields:
             required: true
             help: Youtube videos haben folgendes Format https://www.youtube.com/watch?v=M8mA-ufGEkQ. Nach dem = steht die benötigte ID.
           youtubecaption:
+            extends: caption
             label: Video caption
-            type: markdown
-            tools:
-              - bold
-              - italic
-              - link
             help: Kurze beschreibung des Videos
 
