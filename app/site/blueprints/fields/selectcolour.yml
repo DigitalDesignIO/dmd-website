@@ -1,0 +1,9 @@
+type: select
+options: 
+    border-color-primary: grün
+    border-color-secondary: blau
+    border-color-black: schwarz
+    border-color-choice choice: gestrichelt
+    border-color-darker-white: hellgrau
+width: 1/5
+required: true
