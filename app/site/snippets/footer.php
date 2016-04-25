@@ -23,15 +23,13 @@
 	<script src="scripts/modernizr.js"></script>
 	<script src="scripts/bootstrap.min.js"></script>
 	<script src="scripts/picturefill.min.js"></script>
-	<script src="scripts/foundation.min.js"></script>
+	<script src="scripts/foundation.js"></script>
+	<script src="scripts/foundation.orbit.js"></script>
+	<script src="scripts/foundation.magellan.js"></script>
 	<script src="scripts/jquery.cookie.js"></script>
 	<script src="scripts/fastclick.js"></script>
 	<script src="scripts/custom.js"></script>
 	<!-- endbuild -->
-
-	
-	<?php // echo js('scripts/custom.js') ?>
-	
 	
 </body>
 </html>

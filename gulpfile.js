@@ -58,7 +58,7 @@ gulp.task('useref', function () {
 gulp.task('rewrite', function(){
    return gulp.src(['dist/site/snippets/header.php', 'dist/site/snippets/footer.php'], { base: './' }) //must define base so I can overwrite the src file below. Per http://stackoverflow.com/questions/22418799/can-gulp-overwrite-all-src-files
         .pipe($.if('**/header.php', $.replace(/<link.*href=\"assets\/css\/main\.min\.css\".*>/g, '<?php echo css(\"assets/css/main.min.css\") ?>')))
-        .pipe($.if('**/footer.php', $.replace(/<script.*src=\"scripts\/vendor\.js\".*><\/script>/g, '<?php echo js(\"scripts/vendor.js\") ?>')))
+        .pipe($.if('**/footer.php', $.replace(/<script.*src=\"scripts\/vendor\.js\".*><\/script>/g, '<?php echo js(\"scripts/vendor.js\", true) ?>')))
         .pipe(gulp.dest('./')); //Write the file back to the same spot. 
 });
 
