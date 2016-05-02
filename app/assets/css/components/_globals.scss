@@ -54,6 +54,10 @@ $color-facebook-hover: #415A8F;
   margin-bottom: 0 !important;
 }
 
+.column + .column:last-child, .columns + .column:last-child, .column + .columns:last-child, .columns + .columns:last-child {
+    float: left;
+}
+
 @media #{$medium-up} {
   .margin-bottom-100-md-up {
     margin-bottom: 100px;

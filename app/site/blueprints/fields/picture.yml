@@ -2,3 +2,4 @@ label: Bild
 type: select
 options: images
 required: true
+help: Erwünschtes Bildformat - Breite max 690px. Bilder für mehr performance komprimieren via <a target="_blank" href="https://tinypng.com/ ">https://tinypng.com/</a>

@@ -6,9 +6,9 @@
 	    <?php echo page('footer')->secretaryText()->kirbytext() ?>
 
 	    <div class="heading">Social Media</div>
-	    <a href="https://www.facebook.com/digitaldesign.de" target="_blank" class="button facebook icon-facebook"></a>
+	    <a href="https://www.facebook.com/digitaldesign.de" class="button facebook icon-facebook"></a>
 	    <br />
-	    <iframe src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Fdigitaldesign.de&amp;layout=button_count&amp;show_faces=true&amp;action=like&amp;colorscheme=light" style="width:300px;height:20px;" id="lkbtn" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
+	    <div class="fb-like" data-href="https://www.facebook.com/digitaldesign.de" data-layout="box_count" data-action="like" data-show-faces="true" data-share="false"></div>
 	    <br /> 
 	  </div>
 	  <div class="medium-3 columns end">
@@ -19,17 +19,40 @@
 	</div>
 	<!-- ./footer -->	
 	
-	<!-- build:js(app) scripts/vendor.js defer -->
-	<script src="scripts/modernizr.js"></script>
-	<script src="scripts/bootstrap.min.js"></script>
-	<script src="scripts/picturefill.min.js"></script>
-	<script src="scripts/foundation.js"></script>
-	<script src="scripts/foundation.orbit.js"></script>
-	<script src="scripts/foundation.magellan.js"></script>
-	<script src="scripts/jquery.cookie.js"></script>
-	<script src="scripts/fastclick.js"></script>
+	<!-- build:js(app) scripts/vendor.js async -->
+	<script src="scripts/vendor/bootstrap.min.js"></script>
+	<script src="scripts/vendor/picturefill.min.js"></script>
+	<script src="scripts/vendor/foundation.js"></script>
+	<script src="scripts/vendor/foundation.orbit.js"></script>
+	<script src="scripts/vendor/foundation.magellan.js"></script>
+	<script src="scripts/vendor/fastclick.js"></script>
 	<script src="scripts/custom.js"></script>
 	<!-- endbuild -->
+
+	<!-- defer loading javascript (@see: https://varvy.com/pagespeed/defer-many-javascripts.html)-->
+	<script type="text/javascript">
+		function downloadJSAtOnload() {
+		var element = document.createElement("script");
+		element.src = "scripts/defer.js";
+		document.body.appendChild(element);
+		}
+		if (window.addEventListener)
+		window.addEventListener("load", downloadJSAtOnload, false);
+		else if (window.attachEvent)
+		window.attachEvent("onload", downloadJSAtOnload);
+		else window.onload = downloadJSAtOnload;
+	</script>
+	
+	<!--defer loading images (@see: https://varvy.com/pagespeed/defer-images.html -->
+	<script>
+		function init() {
+		var imgDefer = document.getElementsByTagName('img');
+		for (var i=0; i<imgDefer.length; i++) {
+		if(imgDefer[i].getAttribute('data-src')) {
+		imgDefer[i].setAttribute('src',imgDefer[i].getAttribute('data-src'));
+		} } }
+		window.onload = init;
+	</script>
 	
 </body>
 </html>

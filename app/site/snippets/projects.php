@@ -20,13 +20,9 @@
         <?php foreach(page('projects')->children()->visible() as $project):?>
           <div class="medium-12 large-6 columns">
             <figure class="effect-<?php echo $project->effect()->kirbytextRaw() ?>">
-
-              <?php if($image = $project->images()->sortBy('sort', 'asc')->first()): ?>
-
-                <?php echo thumb($image, array('width' => 355, 'height' => 250, 'crop' => true)); ?>
-
-                <!-- <img src="<?php echo $image->url() ?>" alt="<?php echo $project->title()->html() ?>" >
- -->
+              
+              <?php if($project->previewimage()->isNotEmpty()): ?>
+                <?php echo thumb($project->image($project->previewimage()), array('width' => 355, 'height' => 250, 'crop' => true)); ?>
               <?php endif ?>
 
               <figcaption>
@@ -38,15 +34,8 @@
               </figcaption>     
             </figure>
           </div>
-
-
         <?php endforeach ?>
 
-        <?php
-          // foreach(page('projects')->builder()->toStructure() as $section):
-          //   snippet( snippet('sections/' . $section->_fieldset(), array('section' => $section)) );
-          // endforeach
-        ?>
 
         </div>
       </div>

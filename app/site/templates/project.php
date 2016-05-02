@@ -4,7 +4,7 @@
 
   <meta charset="utf-8" />
   <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, minimum-scale=1.0">
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
 
   <title><?php echo $site->title()->html() ?> | <?php echo $page->title()->html() ?></title>
   <meta name="description" content="<?php echo $site->description()->html() ?>">
@@ -13,9 +13,12 @@
   <?php echo css('assets/css/bootstrap.min.css') ?>
   <?php echo css('assets/css/project.css') ?>
   <?php echo css('assets/css/main.css') ?>
+	
 </head>
 <body>
 
+	<a href="<?php echo $kirby->url().'#Projekte' ?>"><button type="button" class="back-to-home button show-for-medium-up"></button></a>
+	
 	<div class="container-fluid project-heading">
 		<div class="container">
 			<div class="row">
@@ -66,8 +69,31 @@
 
 		</div>
 	</div>
-
-	<?php snippet('footer'); ?>
-
+	
+		<!-- defer loading javascript (@see: https://varvy.com/pagespeed/defer-many-javascripts.html)-->
+	<script type="text/javascript">
+		function downloadJSAtOnload() {
+		var element = document.createElement("script");
+		element.src = "../scripts/defer.js";
+		document.body.appendChild(element);
+		}
+		if (window.addEventListener)
+		window.addEventListener("load", downloadJSAtOnload, false);
+		else if (window.attachEvent)
+		window.attachEvent("onload", downloadJSAtOnload);
+		else window.onload = downloadJSAtOnload;
+	</script>
+	
+	<!--defer loading images (@see: https://varvy.com/pagespeed/defer-images.html -->
+	<script>
+		function init() {
+		var imgDefer = document.getElementsByTagName('img');
+		for (var i=0; i<imgDefer.length; i++) {
+		if(imgDefer[i].getAttribute('data-src')) {
+		imgDefer[i].setAttribute('src',imgDefer[i].getAttribute('data-src'));
+		} } }
+		window.onload = init;
+	</script>
+	
 </body>
 </html>

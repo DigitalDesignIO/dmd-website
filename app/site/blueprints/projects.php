@@ -8,4 +8,6 @@ files: true
 fields:
   Title: title
   Headline: headline
-  Text: blocktext
+  Text:
+    extends: blocktext
+    required: false

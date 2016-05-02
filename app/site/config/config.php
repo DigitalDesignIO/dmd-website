@@ -22,7 +22,7 @@ for more information: http://getkirby.com/license
 
 c::set('license', $license);
 
-c::set('debug', false);
+c::set('debug', true);
 
 // https://github.com/iksi/KirbyFingerprint
 c::set('fingerprint', true);

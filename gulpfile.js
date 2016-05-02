@@ -77,7 +77,8 @@ gulp.task('images', function () {
 gulp.task('copy', function () {
   return gulp.src([
     'app/**/*',
-    '!app/scripts/**/*.js',
+    '!app/scripts/vendor/',
+    '!app/scripts/custom.js',
     '!app/assets/images/**/*.*',
     '!app/assets/css/**/*',
     '!app/site/snippets/header.php', // dont copy this file cause it gets rewritten by the rewrite task
@@ -124,7 +125,7 @@ gulp.task('dev', $.shell.task([
 gulp.task('serve', function () {
   $.browserSync({
     proxy: "localhost/kirby/app",
-    port: 80
+    port: 8080
   });
 
   // watch for changes
@@ -157,8 +158,8 @@ gulp.task( 'deploy', function () {
     // using base = '.' will transfer everything to /public_html correctly
     // turn off buffering in gulp.src for best performance
 
-    return gulp.src( globs, { cwd: 'htdocs/new', buffer: false } )
-        .pipe( conn.newer( '/test' ) ) // only upload newer files
-        .pipe( conn.dest( '/test' ) );
+    return gulp.src( globs, { cwd: 'htdocs/test.digitaldesign.io', buffer: false } )
+        .pipe( conn.newer( '/test.digitaldesign.io' ) ) // only upload newer files
+        .pipe( conn.dest( '/test.digitaldesign.io' ) );
 
 });

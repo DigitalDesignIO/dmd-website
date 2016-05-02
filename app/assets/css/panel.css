@@ -56,3 +56,10 @@ body.ltr .breadcrumb-label:after {
 .team-teaserpic {
   margin-right: 50px;
 }
+
+/* structured fields */
+
+
+.structure-entry-content {
+    padding: 2em 1.5em;
+}

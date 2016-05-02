@@ -11,15 +11,15 @@
         <li class="active orbit-slide-img">
 
         <!-- disabled till new news are announced -->
-   <!--        <div class="new">
+           <div class="new">
             <div class="new-image">
               <img src="assets/images/arrow.svg" alt="list-arrow">
             </div>
             <div class="new-text">
               Neu ab <br />
-              <span>WS 2015</span>
+              <span>WS 2016</span>
             </div>
-          </div> -->
+          </div> 
 
           <picture>
             <source class="" srcset="assets/images/hero-1-lg.jpg" media="(min-width: 1367px)">
@@ -48,7 +48,7 @@
             <source class="" srcset="assets/images/hero-2-xs.jpg" media="(min-width: 300px)">
             <img class="" srcset="assets/images/hero-2-md.jpg" alt="Zusammen die Welt von morgen gestalten">
           </picture>
-          <div class="orbit-caption">Zusammen die Welt von morgen gestalten</div>
+          <div class="orbit-caption">Gestalte deine eigenen Welten und deren Bewohner.<br> 3D Character Design, Andreas Lorer</div>
         </li>
         <!-- ./image-2 -->
 
@@ -56,11 +56,11 @@
         <li class="orbit-slide-img">
           <picture>
             <source class="" srcset="assets/images/hero-3-lg.jpg" media="(min-width: 1367px)">
-            <source class="" srcset="assets/images/hero-3-lg.jpg" media="(min-width: 768px)">
+            <source class="" srcset="assets/images/hero-3-md.jpg" media="(min-width: 768px)">
             <source class="" srcset="assets/images/hero-3-xs.jpg" media="(min-width: 300px)">
             <img class="" srcset="assets/images/hero-3.jpg" alt="Zeichnen, Programmieren, Gestalten">
           </picture>
-          <div class="orbit-caption">The Inner World (Gewinner Deutscher Computerspielpreis - Absolvent Alex Pieper)</div>
+          <div class="orbit-caption">Versetze Bilder in Bewegung und Harmonie. <br> Motion Design, Sonja Zeller</div>
         </li>
         <!-- ./image-3 -->
 
@@ -81,9 +81,9 @@
     <!-- ./landing -->
 
 <!-- disables till next semester starts -->
-<!--     <div class="row">
+     <div class="row">
       <div class="medium-offset-2 medium-8 small-12 columns end">
         <a href="https://www.lsf.hs-weingarten.de/qisserver/servlet/de.his.servlet.RequestDispatcherServlet?state=wimma&stg=n&imma=einl&language=de" class="button-apply button round" target="_blank">Jetzt bewerben!</a>
       </div>
     </div>
- -->
+ 

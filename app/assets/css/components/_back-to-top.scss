@@ -15,3 +15,9 @@
     background-color: transparent;
   }
 }
+
+.button.back-to-home {
+  @extend .back-to-top;
+  transform: rotate(-180deg);
+  visibility: visible;
+}

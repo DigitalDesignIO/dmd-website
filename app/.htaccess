@@ -47,9 +47,8 @@ RewriteRule ^(.*) index.php [L]
 # php_flag short_open_tag on
 
 ## enable redirect from http to https for the login portal
-RewriteEngine On
-RewriteCond %{SERVER_PORT} !^443$
-RewriteRule (.*) https://%{HTTP_HOST}/$1 [R=301,L]
+#RewriteCond %{SERVER_PORT} !^443$
+#RewriteRule (.*) https://%{HTTP_HOST}/$1 [R=301,L]
 
 # enables Kirby fingerprinting
 # https://github.com/iksi/KirbyFingerprint
