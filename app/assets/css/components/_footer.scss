@@ -3,10 +3,10 @@
 .footer {
   background-color: $secondary-color;
   min-width: 100%;
-  color: $white;
   padding: 100px 0;
 
   p {
+    color: $white;
     font-size: 18px;
     line-height: 1.5;
   }
@@ -21,6 +21,7 @@
   }
 
   .heading {
+    color: $white;
     font-size: 25px;
     font-weight: bold;
     margin-bottom: 30px;

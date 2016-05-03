@@ -1,3 +1,4 @@
+@import 'components/globals';
 
 // Font-faces
 @font-face {
@@ -38,7 +39,6 @@
   font-family: 'fontello';
   font-style: normal;
   font-weight: normal;
-  speak: none;
  
   display: inline-block;
   text-decoration: inherit;
@@ -140,6 +140,7 @@ p,
 .row ol > li {
   font-family: 'Circular-Book', sans-serif;
   font-size: 20px;
+  color: $secondary-color;
 }
 
 blockquote {

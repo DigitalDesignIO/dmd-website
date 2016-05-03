@@ -10,9 +10,10 @@
   <meta name="description" content="<?php echo $site->description()->html() ?>">
   <meta name="keywords" content="<?php echo $site->keywords()->html() ?>">
 
-  <?php echo css('assets/css/bootstrap.min.css') ?>
-  <?php echo css('assets/css/project.css') ?>
-  <?php echo css('assets/css/main.css') ?>
+	<?php
+		echo css('assets/css/bootstrap.min.css');
+		echo css('assets/css/project.css');
+	?>
 	
 </head>
 <body>
@@ -22,13 +23,13 @@
 	<div class="container-fluid project-heading">
 		<div class="container">
 			<div class="row">
-				<div class="col-xs-4 col-sm-3 logo">
+				<div class="col-xs-2 col-sm-3 logo">
 					<a href="<?php echo $kirby->url().'#Projekte' ?>" title="back home">
-						<img src="../assets/images/logo.svg" alt="logo" width="26px">
-						<div class="logo-title">Digital Design</div>
+						<img src="../assets/images/logo.svg" alt="logo">
+						<span class="logo-title hidden-xs">Digital Design</span>
 					</a>
 				</div>
-				<div class="col-xs-6 col-sm-9 school">
+				<div class="col-xs-10 col-sm-9 school">
 					<?php echo $page->coursedata()->kt() ?>
 				</div>
 			</div>
@@ -46,7 +47,7 @@
 
 	<div class="container margin-bottom-200">
 		<div class="row">
-			<div id="left-col" class="col-xs-12 col-sm-2 left-col">
+			<div class="hidden-xs col-sm-2 left-col">
 
 				<div class="content-block">
 					<?php echo $page->textleft()->kt() ?>
@@ -69,20 +70,6 @@
 
 		</div>
 	</div>
-	
-		<!-- defer loading javascript (@see: https://varvy.com/pagespeed/defer-many-javascripts.html)-->
-	<script type="text/javascript">
-		function downloadJSAtOnload() {
-		var element = document.createElement("script");
-		element.src = "../scripts/defer.js";
-		document.body.appendChild(element);
-		}
-		if (window.addEventListener)
-		window.addEventListener("load", downloadJSAtOnload, false);
-		else if (window.attachEvent)
-		window.attachEvent("onload", downloadJSAtOnload);
-		else window.onload = downloadJSAtOnload;
-	</script>
 	
 	<!--defer loading images (@see: https://varvy.com/pagespeed/defer-images.html -->
 	<script>

@@ -8,16 +8,11 @@
   bottom: 10px;
   height: 56px;
   width: 50px;
+  border: none;
   transform: rotate(-90deg);
 
   &:hover {
     background: no-repeat center/80% url('../images/arrow-hover.svg');
     background-color: transparent;
   }
-}
-
-.button.back-to-home {
-  @extend .back-to-top;
-  transform: rotate(-180deg);
-  visibility: visible;
 }
