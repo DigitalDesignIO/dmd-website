@@ -15,25 +15,6 @@ fields:
     type: select
     options: images
     required: true
-    
-  effect:
-    label: Bildeffekt
-    type: select
-    default: chico
-    help: Auswahl des Effekts, der für die Projekt Gallerie auf der Startseite verwendet werden soll. Showroom aller Styles http://tympanus.net/Development/HoverEffectIdeas/
-    options:
-      sadie: Sadie
-      chico: Digital Design
-      oscar: Oscar
-      lily: Lily
-      layla: Layla
-      marley: Marley
-      ruby: Ruby
-      roxy: Roxy
-      bubba: Bubba
-      romeo: Romeo
-      sarah: Sarah
-      milo: Milo
       
   Title: title
   

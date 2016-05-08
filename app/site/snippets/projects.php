@@ -19,7 +19,7 @@
 
         <?php foreach(page('projects')->children()->visible() as $project):?>
           <div class="medium-12 large-6 columns">
-            <figure class="effect-chico">
+            <figure class="effect-digitaldesign">
               
               <?php if($project->previewimage()->isNotEmpty()): ?>
                 <?php echo thumb($project->image($project->previewimage()), array('width' => 355, 'height' => 250, 'crop' => true)); ?>
