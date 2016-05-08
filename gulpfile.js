@@ -121,6 +121,19 @@ gulp.task('dev', $.shell.task([
     verbose: true
 }));
 
+gulp.task('watch', function() {
+    // watch for changes
+    gulp.watch([
+        'app/assets/css/**/*.css',
+        'app/scripts/**/*.js',
+        'app/**/*.php'
+    ]).on('change', $.browserSync.reload);
+
+    gulp.watch('app/assets/css/**/*.scss', ['sass']);
+    gulp.watch('app/assets/images/**/*', ['images']);
+    gulp.watch('app/assets/scripts/**/*.js', ['scripts']); 
+});
+
 gulp.task('serve', function () {
   $.browserSync({
     proxy: "localhost/kirby/app",
