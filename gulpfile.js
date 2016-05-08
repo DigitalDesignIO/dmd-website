@@ -77,7 +77,8 @@ gulp.task('images', function () {
 gulp.task('copy', function () {
   return gulp.src([
     'app/**/*',
-    '!app/scripts/**/*',
+    '!app/scripts/custom.js/*',
+    '!app/scripts/vendor/*',
     '!app/assets/images/**/*.*',
     '!app/assets/css/**/*',
     '!app/site/snippets/header.php', // dont copy this file cause it gets rewritten by the rewrite task
