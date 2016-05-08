@@ -25,9 +25,9 @@
             <source class="" srcset="assets/images/hero-1-lg.jpg" media="(min-width: 1367px)">
             <source class="" srcset="assets/images/hero-1-md.jpg" media="(min-width: 768px)">
             <source class="" srcset="assets/images/hero-1-xs.jpg" media="(min-width: 300px)">
-            <img class="" srcset="assets/images/hero-1-md.jpg" alt="Generative Methoden Bader und Kolb">
+            <img class="" srcset="assets/images/hero-1-md.jpg" alt="Zeichnen, Programmieren, Gestalten">
           </picture>
-          <div class="orbit-caption">generative Methoden, Christoph Bader &amp; Dominik Kolb</div>
+          <div class="orbit-caption">Lerne Fotografieren, Bildgestaltung und Lichtführung</div>
 
           <div class="title-wrapper">
             <div class="title">
@@ -58,7 +58,7 @@
             <source class="" srcset="assets/images/hero-3-lg.jpg" media="(min-width: 1367px)">
             <source class="" srcset="assets/images/hero-3-md.jpg" media="(min-width: 768px)">
             <source class="" srcset="assets/images/hero-3-xs.jpg" media="(min-width: 300px)">
-            <img class="" srcset="assets/images/hero-3.jpg" alt="Zeichnen, Programmieren, Gestalten">
+            <img class="" srcset="assets/images/hero-3.jpg" alt="Motion Design, Sonja Zeller">
           </picture>
           <div class="orbit-caption">Versetze Bilder in Bewegung und Harmonie. <br> Motion Design, Sonja Zeller</div>
         </li>
@@ -70,9 +70,9 @@
             <source class="" srcset="assets/images/hero-4-lg.jpg" media="(min-width: 1367px)">
             <source class="" srcset="assets/images/hero-4-md.jpg" media="(min-width: 768px)">
             <source class="" srcset="assets/images/hero-4-xs.jpg" media="(min-width: 300px)">
-            <img class="" srcset="assets/images/hero-4.jpg" alt="Zeichnen, Programmieren, Gestalten">
+            <img class="" srcset="assets/images/hero-4.jpg" alt="Resultate aus Programmiertes Entwerfen">
           </picture>
-          <div class="orbit-caption">Lerne Fotografieren, Bildgestaltung und Lichtführung</div>
+          <div class="orbit-caption">Resultate aus Programmiertes Entwerfen: <br> Fabian Heller, Christoph Hermle &amp; Sinan Saral</div>
         </li>
         <!-- ./image-4 -->
       </ul>
