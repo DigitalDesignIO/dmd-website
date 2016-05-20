@@ -3,7 +3,7 @@ type:  text
 width: 1/1
 required: true
 icon: font
-help: Maximal 60 Zeichen, minimal 4
+help: Maximal 60 Zeichen, minimal 3
 validate:
-  min: 4
+  min: 3
   max: 60
