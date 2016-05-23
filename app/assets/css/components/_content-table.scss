@@ -12,10 +12,13 @@
   > .row {
     background-color: $white;
   }
-
-  .content-table-headlines .columns {
-    height: auto;
-    border: 0;
+  
+  .content-table-headlines {
+    font-family: 'Circular-Black', sans-serif;
+    .columns {
+      height: auto;
+      border: 0;
+    }
   }
 
   .columns {
