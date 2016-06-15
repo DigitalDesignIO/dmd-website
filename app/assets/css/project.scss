@@ -208,8 +208,32 @@ a:hover {
   div {
     width: 100%;
     cursor: pointer;
+
+    > a {
+      color: $black;
+      
+      &:hover {
+        color: $white;
+      }
+    }
   }
-  
+
+  > div:first-child {
+    margin-top: 0;
+  }
+
+ .active > a {
+    color: $primary-color;
+  }
+
+  .singlepage, .mainpage {
+    display: block;
+    font-family: 'circular-black', sans-serif;
+    font-size: 15px;
+    font-weight: bold;
+    margin-top: 20px;
+  }
+
   .chapter-start {
     margin-bottom: 0;
   }

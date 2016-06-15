@@ -1,9 +1,13 @@
 <?php if(!defined('KIRBY')) exit ?>
 
 title: Project
-pages: false
+pages: true
+  template:
+    - projectitem
 files: true
 fields:
+  Title: title
+
   Coursedata:
     label: Kurs Informationen
     type: textarea
@@ -15,9 +19,7 @@ fields:
     type: select
     options: images
     required: true
-      
-  Title: title
-  
+
   Headline: headline
   
   Subheadline:
@@ -133,6 +135,4 @@ fields:
             extends: caption
             label: Video caption
             help: Kurze beschreibung des Videos
-          
-          
 

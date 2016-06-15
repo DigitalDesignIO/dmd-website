@@ -29,10 +29,18 @@
                 <h2><?php echo $project->headline()->kirbytextRaw() ?></h2>
                 <p><?php echo $project->subheadline()->kirbytextRaw() ?></p>
 
-                <a href="<?php echo $project->url() ?>">View more</a>
+                <?php 
+                  if($project->hasChildren()) {
+                    $projectUrl = $project->children()->visible()->first()->url();
+                    echo ('<a href="' . $projectUrl . '">View more</a>');
+                  } else {
+                    echo ('<a href="'. $project->url() .'">View more</a>');
+                  }
+                ?>
 
-              </figcaption>     
+              </figcaption>
             </figure>
+            <?php  ?>
           </div>
         <?php endforeach ?>
 
