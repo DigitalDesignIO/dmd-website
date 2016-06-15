@@ -1,0 +1,4 @@
+label: P5 Javascript Datei
+type: select
+options: code
+required: true
