@@ -13,7 +13,7 @@
           }
         } elseif ($page->template() == 'project') {
           foreach($page->children()->visible() as $projectitem) {
-            if($projectitem->isOpen()) {
+            if($projectitem == $page->children()->visible()->first()) {
               echo ('<div class="active '. $projectitem->Pageclass() .'"><a href="'. $projectitem->url() .'">' . $projectitem->title() .'</a></div>');
             } else {
               echo ('<div class="'. $projectitem->Pageclass() .'"><a href="'. $projectitem->url() .'">' . $projectitem->title() .'</a></div>');
