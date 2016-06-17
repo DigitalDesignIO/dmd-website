@@ -10,22 +10,11 @@
 	</div>
 	
 	<div class="container margin-bottom-200">
-		<div class="row">
-			<div class="hidden-xs col-sm-2 left-col">
 
-				<div class="content-block">
-					
-					<?php foreach($page->children()->visible() as $projectitem):?>
-						<div><a href=<?php echo $projectitem->url() ?>><?php echo $projectitem->title() ?></a></div>
-					<?php endforeach ?>
-					
-				</div>
-
-			</div>
-		</div>
+		<?php snippet('projectsidebar') ?>
 
 		<div class="row">
-			<div class="col-sm-7 middle-col col-sm-offset-3">
+			<div class="col-sm-6 middle-col col-sm-offset-3">
 				<?php 
 					
 					if($page->hasVisibleChildren()) {
