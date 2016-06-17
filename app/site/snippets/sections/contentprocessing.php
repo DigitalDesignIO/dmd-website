@@ -1,4 +1,4 @@
-<div class="col-sm-7 middle-col col-sm-offset-3">
+<div class="col-sm-6 middle-col col-sm-offset-3">
   
   <?php 
     // init variables
@@ -10,10 +10,12 @@
     // get canvas height out of the js file via regex matching
     $regex = '/createCanvas\((.*),\s?(.*)\)/';
     preg_match ($regex , $fileContent, $matches);
-
-    // todo: try / catch blog on int cast. Default value on failure
     $height = (int) $matches[2];
-    // echo (gettype($height));
+    
+    //  Default value if regex could not find a height 
+    if(getType($height) !== 'integer' || $height === 0) {
+      $height = 600;
+    }
   ?>
   
   <iframe id="<?php echo ($iframeUID) ?>" scrolling="no" seamless="seamless" frameBorder="0" width="100%" height="<?php echo($height); ?>" src="<?php echo url('assets/p5/p5-iframe-template.html'); ?>"></iframe>
@@ -35,6 +37,6 @@
   </script>
 </div>
 
-<div class="col-sm-2 caption">
+<div class="col-sm-3 caption">
   <p><?php echo $content->caption()->kirbytextRaw() ?></p>
 </div>

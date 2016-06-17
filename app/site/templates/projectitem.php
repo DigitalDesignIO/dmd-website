@@ -13,7 +13,7 @@
 		<?php snippet('projectsidebar') ?>
 
 		<div class="row">
-			<div class="col-sm-7 middle-col col-sm-offset-3">
+			<div class="col-sm-6 middle-col col-sm-offset-3">
 				<?php echo $page->text()->kt() ?>
 			</div>
 

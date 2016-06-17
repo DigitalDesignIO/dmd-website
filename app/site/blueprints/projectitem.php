@@ -11,6 +11,7 @@ fields:
     label: Seiten Typ
     type: select
     default: Singlepage
+    required: true
     options:
       mainpage: Mainpage
       subpage: Subpage

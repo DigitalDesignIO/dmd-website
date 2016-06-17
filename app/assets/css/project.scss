@@ -243,7 +243,13 @@ a:hover {
   }
 }
 
-/* LEFT MIDDLE */
+/* MIDDLE */
+
+.img-responsive {
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+}
 
 .middle-col {
   p {
