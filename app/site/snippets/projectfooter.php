@@ -8,6 +8,10 @@
 		} } }
 		window.onload = init;
 	</script>
-  
+
+	<!-- build:js(app) scripts/vendor_projects.js async -->
+	<script src="scripts/vendor/bootstrap.min.js"></script>
+	<!-- endbuild -->
+
 </body>
 </html>

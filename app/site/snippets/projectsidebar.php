@@ -1,5 +1,5 @@
-<div class="row">
-  <div class="hidden-xs col-sm-2 left-col">
+<div class="row hidden-xs">
+  <div class="col-sm-2 left-col">
     <div class="content-block">
       
       <?php
@@ -25,3 +25,4 @@
     </div>
   </div>
 </div>
+

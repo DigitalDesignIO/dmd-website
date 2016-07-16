@@ -35,10 +35,11 @@ gulp.task('styles', ['sass'], function() {
 });
 
 gulp.task('useref', function () {
-    return gulp.src(['app/site/snippets/header.php', 'app/site/snippets/footer.php'])
+    return gulp.src(['app/site/snippets/header.php', 'app/site/snippets/footer.php', 'app/site/snippets/projectfooter.php'])
         .pipe($.useref({searchPath: 'app/'}))
         .pipe($.if('**/header.php', $.rename('site/snippets/header.php')))
         .pipe($.if('**/footer.php', $.rename('site/snippets/footer.php')))
+        .pipe($.if('**/projectfooter.php', $.rename('site/snippets/projectfooter.php')))
         .pipe($.if('*.js', $.uglify()))
         .pipe($.if('*.css', $.csso()))
         .pipe(gulp.dest('dist'))
@@ -56,9 +57,10 @@ gulp.task('useref', function () {
 // });
 
 gulp.task('rewrite', function(){
-   return gulp.src(['dist/site/snippets/header.php', 'dist/site/snippets/footer.php'], { base: './' }) //must define base so I can overwrite the src file below. Per http://stackoverflow.com/questions/22418799/can-gulp-overwrite-all-src-files
+   return gulp.src(['dist/site/snippets/header.php', 'dist/site/snippets/footer.php', 'dist/site/snippets/projectfooter.php'], { base: './' }) //must define base so I can overwrite the src file below. Per http://stackoverflow.com/questions/22418799/can-gulp-overwrite-all-src-files
         .pipe($.if('**/header.php', $.replace(/<link.*href=\"assets\/css\/main\.min\.css\".*>/g, '<?php echo css(\"assets/css/main.min.css\") ?>')))
         .pipe($.if('**/footer.php', $.replace(/<script.*src=\"scripts\/vendor\.js\".*><\/script>/g, '<?php echo js(\"scripts/vendor.js\", true) ?>')))
+        .pipe($.if('**/projectfooter.php', $.replace(/<script.*src=\"scripts\/vendor_projects\.js\".*><\/script>/g, '<?php echo js(\"scripts/vendor_projects.js\", true) ?>')))
         .pipe(gulp.dest('./')); //Write the file back to the same spot. 
 });
 
@@ -77,11 +79,12 @@ gulp.task('images', function () {
 gulp.task('copy', function () {
   return gulp.src([
     'app/**/*',
-    '!app/scripts/custom.js/*',
+    '!app/scripts/custom.js',
     '!app/scripts/vendor/*',
     '!app/assets/images/**/*.*',
     '!app/assets/css/**/*',
     '!app/site/snippets/header.php', // dont copy this file cause it gets rewritten by the rewrite task
+    '!app/site/snippets/projectfooter.php', // dont copy this file cause it gets rewritten by the rewrite task
     '!app/site/snippets/footer.php' // dont copy this file cause it gets rewritten by the rewrite task
     ],{
      dot:true
@@ -171,7 +174,7 @@ gulp.task( 'deploy', function () {
     // using base = '.' will transfer everything to /public_html correctly
     // turn off buffering in gulp.src for best performance
 
-    return gulp.src( globs, { cwd: 'htdocs/test.digitaldesign.io', buffer: false } )
+    return gulp.src( globs, { cwd: 'test.digitaldesign.io', buffer: false } )
         .pipe( conn.newer( '/test.digitaldesign.io' ) ) // only upload newer files
         .pipe( conn.dest( '/test.digitaldesign.io' ) );
 

@@ -1,8 +1,8 @@
 @import 'foundation/components/global';
 
-
 @import 'components/fonts';
 @import 'components/globals';
+@import 'components/nav';
 @import 'components/back-to-top';
 
 @font-face {
@@ -35,6 +35,7 @@ body {
 
 iframe {
   margin-bottom: 25px;
+  max-width: 100%;
 }
 
 .margin-bottom-200 {
@@ -88,6 +89,8 @@ a:hover {
 }
 
 @media #{$small-only} {
+
+
   .button.back-to-home {
     width: 50px;
     right: 15px;
@@ -104,6 +107,7 @@ a:hover {
   
   .school {
     font-size: 15px;
+
     
     p {
       color: $light-white;
@@ -138,14 +142,35 @@ a:hover {
 
 @media #{$small-only} {
   .project-heading {
+    margin-bottom: 0;
+
     .logo img {
       width: 38px;
       height: 50px;
+    }
+
+    .school {
+      width: 65%;
     }
       
     .logo-title {
       font-size: 18px;
       margin-top: -10px;
+    }
+  }
+
+  .navbar-default .navbar-collapse {
+    border-color: #dddddd;
+    border-width: 1px 0 3px 0;
+  }
+
+  .navbar {
+    .navbar-toggle {
+      margin-top: 30px;
+    }
+    
+    .navbar-brand {
+      height: auto;
     }
   }
 }
@@ -181,10 +206,12 @@ a:hover {
 @media #{$small-only} {
   .doc-wrapper {
     margin-top: 0;
+    padding-top: 120px;
     margin-bottom: 25px;
+    height: auto;
     
     .doc-title {
-      font-size: 20px;
+      font-size: 14px;
     }
     
     .doc-autor {
@@ -195,7 +222,7 @@ a:hover {
 
 /* LEFT COLUMN */
 
-.left-col .content-block {
+.left-col .content-block, .navbar-right {
   font-size: 15px;
   font-family: 'circular-book', sans-serif;
   margin-bottom: 40px;
@@ -243,6 +270,28 @@ a:hover {
   }
 }
 
+@media #{$small-only} { 
+  .left-col .content-block, .navbar-right {
+    > div {
+      padding-left: 25px;
+    }
+
+    .singlepage, .mainpage {
+      display: block;
+      font-family: 'circular-black', sans-serif;
+      font-size: 18px;
+      
+    }
+    .mainpage {
+      margin-bottom: 4px;
+    }
+    .subpage {
+      font-size: 18px;
+      margin-bottom: 4px;
+    }
+  }
+}
+
 /* MIDDLE */
 
 .img-responsive {
@@ -284,5 +333,11 @@ a:hover {
 @media #{$small-only} { 
   .margin-bottom-50-xs-only {
     margin-bottom: 50px;
+  }
+
+  .middle-col {
+    img {
+      margin-bottom: 5px;
+    }
   }
 }

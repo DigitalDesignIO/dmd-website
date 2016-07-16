@@ -62,6 +62,10 @@ $color-facebook-hover: #415A8F;
   .margin-bottom-100-md-up {
     margin-bottom: 100px;
   }
+
+  .hidden-sm {
+    display: none;
+  }
 }
 
 @media #{$small-only} { 

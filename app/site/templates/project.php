@@ -28,11 +28,9 @@
 					foreach($page->children()->visible()->first()->builder()->toStructure() as $content) {
 
 						snippet('sections/' . $content->_fieldset(), array('content' => $content));
-
 					}
 				}
 			?>
-
 		</div>
 	</div>
 	
