@@ -10,9 +10,9 @@
 	    },
 	    orbit: {
 	      animation: 'slide',
-	      timer_speed: 3000,
+	      timer_speed: 6000,
 	      pause_on_hover: false,
-	      animation_speed: 750,
+	      animation_speed: 500,
 	      navigation_arrows: true,
 	      bullets: true,
 	      timer: true,
