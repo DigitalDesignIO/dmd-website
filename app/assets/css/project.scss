@@ -211,11 +211,21 @@ a:hover {
     height: auto;
     
     .doc-title {
-      font-size: 14px;
+      font-size: 16px;
     }
     
     .doc-autor {
       font-size: 25px;
+    }
+  }
+
+  .margin-bottom-50-xs-only {
+    margin-bottom: 50px;
+  }
+
+  .middle-col {
+    img {
+      margin-bottom: 5px;
     }
   }
 }
@@ -327,17 +337,5 @@ a:hover {
 @media #{$medium-up} {
   .left-col {
     position: absolute;
-  }
-}
-
-@media #{$small-only} { 
-  .margin-bottom-50-xs-only {
-    margin-bottom: 50px;
-  }
-
-  .middle-col {
-    img {
-      margin-bottom: 5px;
-    }
   }
 }

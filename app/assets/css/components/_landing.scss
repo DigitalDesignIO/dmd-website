@@ -8,6 +8,10 @@
   position: relative;
   margin-bottom: 170px;
 
+  picture {
+    position: relative;
+  }
+
   .new {
     position: absolute;
     right: 10%;
@@ -140,7 +144,7 @@
     }
 
     .title-wrapper {
-      bottom: 20%;
+      bottom: 40%;
       left: 4%;
 
       .sub-title {
@@ -149,9 +153,15 @@
     }
   }
 
+  .navbar-default .navbar-brand {
+    padding: 6px 10px;
+  }
+
   .orbit-container {
     .orbit-slides-container > * .orbit-caption {
-      right: 4%;
+      right: 0%;
+      margin: 0 15px;
+      bottom: 100px;
     }
   }
 }
