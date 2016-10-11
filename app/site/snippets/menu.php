@@ -13,7 +13,7 @@
 
         <!-- navbar-brand -->
         <a class="navbar-brand" href="<?php echo url() ?>">
-          <img src="assets/images/logo.svg" height="36" width="36" alt="Digital Media Design Logo">
+          <img src="<?= url('assets/images/logo.svg') ?>" height="36" width="36" alt="Digital Media Design Logo">
           Digital Media Design 
         </a>
         <!-- ./navbar-brand -->
