@@ -27,6 +27,11 @@ c::set('debug', true);
 // https://github.com/iksi/KirbyFingerprint
 c::set('fingerprint', true);
 
+/* hooks */
+
+kirby()->hook('panel.file.upload', 'resizeImageOnUpload');
+kirby()->hook('panel.file.replace', 'resizeImageOnUpload');
+
 // https://getkirby.com/docs/panel/developers/custom-css
 c::set('panel.stylesheet', '/assets/css/panel.css');
 
