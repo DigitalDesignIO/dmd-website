@@ -95,8 +95,8 @@
 
     public function getNews($facebookPageId) {
       // fetch data from facebook api
-      // if($this->isOutdated($this->page_obj->date_uid())) {
-      if(true) {
+      if($this->isOutdated($this->page_obj->date_uid())) {
+      // if(true) {
         return $this->getFacebookEvents($facebookPageId);
       }
       else {
