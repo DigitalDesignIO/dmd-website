@@ -5,7 +5,7 @@
     // if the field "local" does not exist in "content/1-news/news.de.txt" create it
     $news->local()->exists() ? : $news->update(array('local' => 'true'), 'de');
 
-    $fb_event = new Event($news);
+    $fb_event = getFacebookEvents($news);
     $fb_event = $fb_event->getNews('1676014109285451');
 
     // serve content from local "content/1-news/**" folder or from facebook if news is outdated
