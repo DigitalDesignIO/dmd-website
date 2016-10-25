@@ -34,15 +34,8 @@
           <?php endif ?>
           </li>
         <?php endforeach ?>
-        
+
       </ul>
       <!-- ./orbit-wrapper -->
     </div>
     <!-- ./landing -->
-
-<!-- disables till next semester starts -->
-     <div class="row">
-      <div class="medium-offset-2 medium-8 small-12 columns end">
-        <a href="https://www.lsf.hs-weingarten.de/qisserver/servlet/de.his.servlet.RequestDispatcherServlet?state=wimma&stg=n&imma=einl&language=de" class="button-apply button round" target="_blank">Jetzt bewerben!</a>
-      </div>
-    </div>
