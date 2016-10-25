@@ -7,6 +7,7 @@
 
 		<?php
 
+			// TODO: rework template (hs and environment snippet only differ by their name (mb use data->title()))
 			foreach(page('hs')->children()->visible() as $content):
 				snippet($content->intendedTemplate(), array('data' => $data, 'content' => $content));
 			endforeach

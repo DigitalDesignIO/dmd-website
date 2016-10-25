@@ -11,17 +11,12 @@
 
       <?php foreach($content->builder()->toStructure() as $content): ?>
 
-      	<!-- <?php echo $content->picture() ?> -->
-
         <?php snippet('sections/' . $content->_fieldset(), array('content' => $content)) ?>
         
       <?php endforeach ?>
-
 
       <!-- ./team -->
     </div>
     <!-- ./team-wrapper -->
 
   <!-- ./hochschule -->
-
-	  
