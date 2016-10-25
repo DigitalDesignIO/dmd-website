@@ -15,9 +15,9 @@
   <link rel="stylesheet" href="assets/css/hover.css">
   <link rel="stylesheet" href="assets/css/main.css">
   <!-- endbuild -->
-  
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-  
+
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script> -->
+
 </head>
 <body>
 

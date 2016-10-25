@@ -61,7 +61,7 @@ gulp.task('rewrite', function(){
         .pipe($.if('**/header.php', $.replace(/<link.*href=\"assets\/css\/main\.min\.css\".*>/g, '<?php echo css(\"assets/css/main.min.css\") ?>')))
         .pipe($.if('**/footer.php', $.replace(/<script.*src=\"scripts\/vendor\.js\".*><\/script>/g, '<?php echo js(\"scripts/vendor.js\", true) ?>')))
         .pipe($.if('**/projectfooter.php', $.replace(/<script.*src=\"scripts\/vendor_projects\.js\".*><\/script>/g, '<?php echo js(\"scripts/vendor_projects.js\", true) ?>')))
-        .pipe(gulp.dest('./')); //Write the file back to the same spot. 
+        .pipe(gulp.dest('./')); //Write the file back to the same spot.
 });
 
 gulp.task('images', function () {
@@ -100,12 +100,34 @@ gulp.task('fonts', function () {
         .pipe($.size());
 });
 
+// generate index.html via curl for inlining the above the fold css
+gulp.task('generate-index', function() {
+  return $.run('curl http://localhost/wunderwelten/dist/ > dist/index.html').exec();
+})
+
+// inline the above the fold
+gulp.task('critical', ['generate-index'], function (cb) {
+    var data = JSON.parse(fs.readFileSync('dist/rev-manifest.json', 'utf8'));
+    critical.generate({
+        inline: false,
+        base: '.',
+        css: ['dist/assets/css/' + data['main.css']],
+        src: 'dist/index.html',
+        dest: 'dist/assets/css/inline.css',
+        minify: true,
+        width: 375,
+        height: 600
+    });
+});
+
 // Clean Output Directory
 gulp.task('clean', $.del.bind(null, ['dist']));
+// delete the output folder which curl creates
+gulp.task('delOutput', $.del.bind(null, ['output']));
 
 // Build Production Files, the Default Task
 gulp.task('build', ['clean'], function (cb) {
-  $.runSequence(['useref', 'styles', 'fonts', 'images', 'copy'], 'rewrite', cb);
+  $.runSequence(['useref', 'styles', 'fonts', 'images', 'copy'], ['rewrite', 'critical'], 'delOutput', cb);
 });
 
 gulp.task('default',  function () {
@@ -135,7 +157,7 @@ gulp.task('watch', function() {
 
     gulp.watch('app/assets/css/**/*.scss', ['sass']);
     gulp.watch('app/assets/images/**/*', ['images']);
-    gulp.watch('app/assets/scripts/**/*.js', ['scripts']); 
+    gulp.watch('app/assets/scripts/**/*.js', ['scripts']);
 });
 
 gulp.task('serve', function () {
