@@ -5,10 +5,14 @@
     // if the field "local" does not exist in "content/1-news/news.de.txt" create it
     $news->local()->exists() ? : $news->update(array('local' => 'true'), 'de');
 
-    $fb_event = getFacebookEvents($news);
-    $fb_event = $fb_event->getNews('1676014109285451');
+    $fbe = FacebookEvents($news);
+    // $fb_event = $fbe->getFacebookEvents($fb);
+    // $fb_event = $fbe->getEvent($fb);
+    $fb_event = $fbe->getNews('1676014109285451');
 
-    // serve content from local "content/1-news/**" folder or from facebook if news is outdated
+    // serve content from local "content/1-news/**" folder or from facebook if the token is expired is outdated
+    // depending on from where the data is coming we need to treat the data differently.
+    // Thats what this variable is good for
     $fromLocal = $fb_event->local();
   ?>
 
@@ -33,7 +37,7 @@
               echo $fb_event->description()->kt();
             }
             else {
-              echo $fb_event->description();
+              echo kirbytext($fb_event->description());
             }
           ?>
         </p>
@@ -79,6 +83,12 @@
           }
         ?>
       </p>
+    </div>
+  </div>
+
+  <div class="row content">
+    <div class="medium-offset-3 medium-7 columns">
+      <p class="text-center"><a class="button round" target="_blank" href="https://www.facebook.com/digitaldesign.de/events">Alle Termine</a></p>
     </div>
   </div>
   <!-- ./content-block -->

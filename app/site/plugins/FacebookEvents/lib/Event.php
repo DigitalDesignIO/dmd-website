@@ -2,7 +2,7 @@
 
   require_once 'Credentials.php';
 
-  // todo: How to deal with the scenario when an event is created bevor the cached event. It wont get recognized at the moment
+  // TODO: https://developers.facebook.com/docs/graph-api/webhooks
   class Event {
     private $page_obj = '';
     private $id = '';
@@ -22,6 +22,7 @@
     private $event_url = '';
     private $event_endtime_id = '';
     private $local = '';
+    private $expires = '';
 
     private $fb_page_id;
 
@@ -91,13 +92,15 @@
 
     public function __construct($page) {
       $this->page_obj = $page;
+      $this->local = 'false';
     }
 
     public function getNews($facebookPageId) {
       // fetch data from facebook api
-      if($this->isOutdated($this->page_obj->date_uid())) {
+      if($this->isExpired($this->page_obj->expires())) {
       // if(true) {
-        return $this->getFacebookEvents($facebookPageId);
+        $events = $this->getFacebookEvents($facebookPageId);
+        return $this->getEvent($events);
       }
       else {
         // serve from local kirby folder "content/1-news/**"
@@ -113,9 +116,6 @@
       $app_secret = $credentials->getApp_secret();
       $app_id = $credentials->getApp_id();
       $access_token = $credentials->getAccess_token();
-      // $app_secret = '2e62a53f8e4000ff4f71d59f77a72723';
-      // $app_id = '355579134776019';
-      // $access_token = '355579134776019|TiaC-CZ9haDhgfKX15n10WfluPA';
 
       // specify the "since" and "until" dates to get the events
       $year_range = 1;
@@ -130,16 +130,17 @@
 
       $json_link = "https://graph.facebook.com/v2.8/{$this->fb_page_id}/events/attending/?fields={$fields}&access_token={$access_token}&since={$since_unix_timestamp}&until={$until_unix_timestamp}";
 
+      // error handling
       $json = file_get_contents($json_link);
 
       $events = json_decode($json, true, 512, JSON_BIGINT_AS_STRING);
 
-      return $this->getEvent($events);
+      // return $this->getEvent($events);
+      return $events;
     }
 
-    private function getEvent($events) {
+    public function getEvent($events) {
       date_default_timezone_set("Europe/Berlin");
-      $this->local = 'false';
 
       $events = a::sort($events['data'], 'start_time', 'asc');
 
@@ -165,11 +166,10 @@
       }
 
       if(isset($event['end_time'])) {
-        $end_date = $this->parseFacebookDateFormat($event['end_time']);
-        $this->end_date = $end_date;
+        $this->end_date = $this->parseFacebookDateFormat($event['end_time']);
       }
 
-      // $this->event_endtime_id = $this->generateDateId($end_date['date'], $end_date['time']);
+      $this->expires = date('Y-m-d 12:00', strtotime('+1 day'));
 
       $this->updateNews($this);
 
@@ -178,7 +178,7 @@
 
     private function updateNews($event) {
       $this->page_obj->update(array(
-        'date_uid' => $event->end_date['date_id'],
+        'expires' => $event->expires,
         'description' => $event->description,
         'event_url' => $event->event_url,
         'name' => $event->name,
@@ -238,7 +238,7 @@
           // echo 'image you want to create, already existed -> return<br>';
           return $image;
         }
-        // the image name does not match the existing one,
+        // the image name (hash) does not match the existing one,
         // so we need to update the event image and replace it with the new one
         else {
           try {
@@ -270,40 +270,7 @@
       return $image;
     }
 
-    private function generateDateId($date, $time){
-      // 'Dienstag, 23.08.16'
-      $parsedDate = (date_parse_from_format('l, d.m.y' , $date));
-
-      // [0] => 'Dienstag', [1] => '23.08.16'
-      $strippedDate = explode(',', $date);
-
-      // extracted date: '23.08.16'
-      $strippedDate = $strippedDate[1];
-
-      // [0] => '23', [1] => '08', [2] => '16'
-      $strippedDate = explode('.', $strippedDate);
-      $strippedDate['day'] = $strippedDate[0];
-      $strippedDate['month'] = $strippedDate[1];
-      $strippedDate['year'] = $strippedDate[2];
-
-      // remove all white spaces from date string
-      foreach ($strippedDate as $key => $value)
-      {
-        $strippedDate[$key] = trim($value);
-      }
-
-      // 19:30
-      $strippedTime = explode(':', $time);
-      $strippedTime['hour'] = $strippedTime[0];
-      $strippedTime['minutes'] = $strippedTime[1];
-
-      $date_uid = $strippedDate['year'] . $strippedDate['month'] . $strippedDate['day'] . $strippedTime['hour'] . $strippedTime['minutes'];
-
-      // generated id: 2016-11-10 14:15 => 201611101415
-      return $date_uid;
-    }
-
-    public function isOutdated($date) {
+    public function isExpired($date) {
       date_default_timezone_set("Europe/Berlin");
 
       $today = date("Y-m-d H:i:s");

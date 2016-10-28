@@ -14,7 +14,7 @@
         <!-- navbar-brand -->
         <a class="navbar-brand" href="<?php echo url() ?>">
           <img src="<?= url('assets/images/logo.svg') ?>" height="36" width="36" alt="Digital Media Design Logo">
-          Digital Media Design 
+          Digital Media Design
         </a>
         <!-- ./navbar-brand -->
       </div>
@@ -25,12 +25,8 @@
 
         </ul>
         <ul class="nav navbar-nav navbar-right">
-            <li>
-              <a class="extern" target="_blank" href="https://www.facebook.com/digitaldesign.de/events"><?php echo l::get('dates') ?></a>
-            </li>
-
           <?php foreach($pages->visible() as $p): ?>
-            
+
             <li data-magellan-arrival="<?php echo $p->title()->html() ?>">
               <a href="#<?php echo $p->title()->html() ?>"><?php echo $p->title()->html() ?></a>
             </li>

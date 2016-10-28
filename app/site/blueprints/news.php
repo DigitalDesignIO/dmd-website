@@ -7,13 +7,23 @@ fields:
   Title: title
   Headline: headline
 
+  divider:
+    type: headline
+    label: News
+
+  info:
+    type: info
+    label: Hier werden die aktuellen DmD Veranstaltungen angezeigt. Die Felder sind für die manuelle Eingabe deaktiviert, da die Inhalte von den Veranstaltungen der DMD-Facebook Seite geholt werden. Der Inhalt wird dabei 1x pro Tag automatisch aktuallisiert um mögliche Veränderungen anzeigen zu können. Der Inhalt wird also nur über Facebook gepflegt.
+
   name:
     label: Veranstaltungsname
     type: text
+    disabled: true
 
   description:
     label: Description
     type:  textarea
+    disabled: true
 
   start_date_humanized:
     label: Event Datum
