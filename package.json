@@ -2,7 +2,10 @@
   "name": "digital-media-design",
   "version": "1.0.0",
   "description": "In order to run and build this project you need to install the following on your machine:",
-  "dependencies": {},
+  "dependencies": {
+    "critical": "^0.8.0",
+    "gulp-run": "^1.7.1"
+  },
   "devDependencies": {
     "browser-sync": "^2.12.3",
     "del": "^2.2.0",

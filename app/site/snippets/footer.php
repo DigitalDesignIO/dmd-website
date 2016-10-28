@@ -18,9 +18,9 @@
 	  </div>
 	</div>
 	<!-- ./footer -->
+	<!-- <script src="scripts/vendor/jquery.min.js"></script>-->
 
 	<!-- build:js(app) scripts/vendor.js async -->
-	<script src="scripts/vendor/jquery.min.js"></script>
 	<script src="scripts/vendor/bootstrap.min.js"></script>
 	<script src="scripts/vendor/picturefill.min.js"></script>
 	<script src="scripts/vendor/foundation.js"></script>

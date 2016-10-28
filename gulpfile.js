@@ -4,7 +4,8 @@ var credentials = require('./credentials');
 
 var gulp = require('gulp'),
 ftp = require( 'vinyl-ftp' ),
-sass = require('gulp-sass');
+sass = require('gulp-sass'),
+critical = require('critical');
 
 // load plugins
 var $ = require('gulp-load-plugins')({
@@ -102,16 +103,15 @@ gulp.task('fonts', function () {
 
 // generate index.html via curl for inlining the above the fold css
 gulp.task('generate-index', function() {
-  return $.run('curl http://localhost/wunderwelten/dist/ > dist/index.html').exec();
+  return $.run('curl http://localhost/kirby/dist/ > dist/index.html').exec();
 })
 
 // inline the above the fold
 gulp.task('critical', ['generate-index'], function (cb) {
-    var data = JSON.parse(fs.readFileSync('dist/rev-manifest.json', 'utf8'));
     critical.generate({
         inline: false,
         base: '.',
-        css: ['dist/assets/css/' + data['main.css']],
+        css: ['dist/assets/css/main.min.css'],
         src: 'dist/index.html',
         dest: 'dist/assets/css/inline.css',
         minify: true,
@@ -123,7 +123,7 @@ gulp.task('critical', ['generate-index'], function (cb) {
 // Clean Output Directory
 gulp.task('clean', $.del.bind(null, ['dist']));
 // delete the output folder which curl creates
-gulp.task('delOutput', $.del.bind(null, ['output']));
+gulp.task('delOutput', $.del.bind(null, ['dist/index.html']));
 
 // Build Production Files, the Default Task
 gulp.task('build', ['clean'], function (cb) {

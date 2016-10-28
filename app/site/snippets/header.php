@@ -10,13 +10,15 @@
   <meta name="description" content="<?php echo $site->description()->html() ?>">
   <meta name="keywords" content="<?php echo $site->keywords()->html() ?>">
 
+  <?php snippet('inline') ?>
+
   <!-- build:css(app) assets/css/main.min.css -->
   <link rel="stylesheet" href="assets/css/bootstrap.min.css">
   <link rel="stylesheet" href="assets/css/hover.css">
   <link rel="stylesheet" href="assets/css/main.css">
   <!-- endbuild -->
 
-  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script> -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 
 </head>
 <body>
