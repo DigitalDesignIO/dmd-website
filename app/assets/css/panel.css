@@ -57,6 +57,10 @@ body.ltr .breadcrumb-label:after {
   margin-right: 50px;
 }
 
+.field-with-headline {
+    padding-top: 3em;
+}
+
 /* structured fields */
 
 

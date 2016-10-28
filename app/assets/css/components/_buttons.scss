@@ -10,7 +10,7 @@
 
   &.facebook {
     background-color: $color-facebook;
-    color: $white; 
+    color: $white;
     margin: 0 0 .5rem;
     padding: .5rem 1.8rem;
   }
@@ -22,6 +22,7 @@
 
 .button.round {
   font-weight: bold;
+  font-size: 22px;
   padding: 10px 20px;
   margin-bottom: 20px;
   background-color: $primary-color;
