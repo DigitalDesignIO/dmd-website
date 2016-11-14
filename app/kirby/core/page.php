@@ -194,10 +194,13 @@ abstract class PageAbstract {
    * @return string
    */
   public function tinyurl() {
-    if(!$this->kirby->options['tinyurl.enabled']) {
+    if(!isset($this->kirby->options['tinyurl.enabled']) || !$this->kirby->options['tinyurl.enabled']) {
       return $this->url();
     } else {
-      return url($this->kirby->options['tinyurl.folder'] . '/' . $this->hash());
+      // try to use tinyurl.url first, otherwise use tinyurl.folder
+      $base = a::get($this->kirby->options, 'tinyurl.url');
+      if(!$base) $base = a::get($this->kirby->options, 'tinyurl.folder');
+      return url($base . '/' . $this->hash());
     }
   }
 
@@ -243,8 +246,9 @@ abstract class PageAbstract {
       return false;
     }
 
+    $lang = ($this->site->defaultLanguage())? $this->site->defaultLanguage()->code : null;
     foreach($this->kirby->option('cache.ignore') as $pattern) {
-      if(fnmatch($pattern, $this->uri()) === true) {
+      if(fnmatch($pattern, $this->uri($lang)) === true) {
         return false;
       }
     }
@@ -797,14 +801,16 @@ abstract class PageAbstract {
   /**
    * Alternative for $this->equals()
    */
-  public function is(Page $page) {
+  public function is($page) {
+    if(!is_a($page, 'Page')) $page = page($page);
+
     return $this->id() == $page->id();
   }
 
   /**
    * Alternative for $this->is()
    */
-  public function equals(Page $page) {
+  public function equals($page) {
     return $this->is($page);
   }
 
@@ -884,7 +890,9 @@ abstract class PageAbstract {
    * @param object Page the page object to check
    * @return boolean
    */
-  public function isChildOf(Page $page) {
+  public function isChildOf($page) {
+    if(!is_a($page, 'Page')) $page = page($page);
+
     return $this->is($page) ? false : $this->parent->is($page);
   }
 
@@ -894,7 +902,9 @@ abstract class PageAbstract {
    * @param object Page the page object to check
    * @return boolean
    */
-  public function isParentOf(Page $page) {
+  public function isParentOf($page) {
+    if(!is_a($page, 'Page')) $page = page($page);
+
     return $this->is($page) ? false : $page->parent->is($this);
   }
 
@@ -904,7 +914,9 @@ abstract class PageAbstract {
    * @param object Page the page object to check
    * @return boolean
    */
-  public function isDescendantOf(Page $page) {
+  public function isDescendantOf($page) {
+    if(!is_a($page, 'Page')) $page = page($page);
+
     return $this->is($page) ? false : $this->parents()->has($page);
   }
 
@@ -1007,15 +1019,78 @@ abstract class PageAbstract {
   }
 
   /**
+   * Returns the representation file extension for the page
+   *
+   * @param string $template Template name to use as base
+   * @return string/false
+   */
+  public function representation($template = null) {
+    if(!$template) $template = $this->template();
+    $cacheKey = 'representation.' . $template;
+
+    // check for a cached representation
+    if(isset($this->cache[$cacheKey])) return $this->cache[$cacheKey];
+
+    // check for a representation from the URL
+    if($this->site->representation && $this->kirby->registry->get('template', $template . '.' . $this->site->representation)) {
+      return $this->cache[$cacheKey] = $this->site->representation;
+    }
+
+    // try to get a representation from the Accept header
+    // this feature is disabled by default because some browsers
+    // have strange Accept headers (e.g. WebKit)
+    if($this->kirby->option('representations.accept')) {
+      // manually add the normal template to the mix as HTML representation
+      $representations = ['__default' => visitor::acceptance('text/html')];
+
+      // add each other available representation
+      foreach($this->kirby->registry->get('template', $template, true) as $representation) {
+        $representation = f::extension($representation);
+        $mime           = f::extensionToMime($representation);
+
+        $representations[$representation] = visitor::acceptance($mime);
+      }
+
+      // return the highest accepted representation
+      if(!empty($representations) && ($max = max($representations)) > 0) {
+        $representation = array_search($max, $representations);
+        if($representation === '__default') $representation = false;
+        return $this->cache[$cacheKey] = $representation;
+      }
+    }
+
+    return $this->cache[$cacheKey] = false;
+  }
+
+  /**
    * Returns the full path to the used template file
    *
    * @return string
    */
   public function templateFile() {
-    if($template = $this->kirby->registry->get('template', $this->intendedTemplate())) {
-      return $template;  
+    return $this->_templateFile($this->intendedTemplate());
+  }
+
+  /**
+   * Internal helper method
+   *
+   * @param string $template Template name to use as base
+   * @return string
+   */
+  protected function _templateFile($template) {
+    $representation = $this->representation($template);
+
+    if($representation) {
+      return $this->kirby->registry->get('template', $template . '.' . $representation);
     } else {
-      return $this->kirby->registry->get('template', 'default');
+      if($template = $this->kirby->registry->get('template', $template)) {
+        return $template;
+      } else if($template !== 'default') {
+        // try to get a representation of the default template
+        return $this->_templateFile('default');
+      } else {
+        return $this->kirby->registry->get('template', 'default');
+      }
     }
   }
 
@@ -1078,6 +1153,11 @@ abstract class PageAbstract {
 
     } else if($this->isErrorPage()) {
       header::notfound();
+    }
+
+    // send the header of the representation
+    if($representation = $this->representation()) {
+      if($mime = f::extensionToMime($representation)) header::type($mime);
     }
 
   }
@@ -1367,27 +1447,35 @@ abstract class PageAbstract {
    */
   public function toArray($callback = null) {
 
-    $data = array(
-      'id'               => $this->id(),
+    $data = [
       'title'            => $this->title()->toString(),
+      'id'               => $this->id(),
+      'uid'              => $this->uid(),
+      'slug'             => $this->slug(),
       'parent'           => $this->parent()->uri(),
-      'dirname'          => $this->dirname(),
-      'diruri'           => $this->diruri(),
+      'uri'              => $this->uri(),
       'url'              => $this->url(),
       'contentUrl'       => $this->contentUrl(),
       'tinyUrl'          => $this->tinyUrl(),
-      'depth'            => $this->depth(),
-      'uri'              => $this->uri(),
       'root'             => $this->root(),
-      'uid'              => $this->uid(),
-      'slug'             => $this->slug(),
+      'dirname'          => $this->dirname(),
+      'diruri'           => $this->diruri(),
+      'depth'            => $this->depth(),
       'num'              => $this->num(),
       'hash'             => $this->hash(),
-      'modified'         => $this->modified(),
+      'modified'         => $this->modified('c'),
       'template'         => $this->template(),
       'intendedTemplate' => $this->intendedTemplate(),
+      'isVisible'        => $this->isVisible(),
+      'isOpen'           => $this->isOpen(),
+      'isActive'         => $this->isActive(),
+      'isHomePage'       => $this->isHomePage(),
+      'isErrorPage'      => $this->isErrorPage(),
+      'isCachable'       => $this->isCachable(),
+      'isWritable'       => $this->isWritable(),
       'content'          => $this->content()->toArray(),
-    );
+      'headers'          => $this->headers(),
+    ];
 
     if(is_null($callback)) {
       return $data;
@@ -1405,8 +1493,15 @@ abstract class PageAbstract {
    */
   public function controller($arguments = array()) {
 
-    $controller = $this->kirby->registry->get('controller', $this->template());
-      
+    // first try to get a controller for the representation
+    $controller = null;
+    if($representation = $this->representation()) {
+      $controller = $this->kirby->registry->get('controller', $this->template() . '.' . $representation);
+    }
+
+    // no representation or no special controller: try the normal one
+    if(!$controller) $controller = $this->kirby->registry->get('controller', $this->template());
+
     if(is_a($controller, 'Closure')) {
       return (array)call_user_func_array($controller, array(
         $this->site,
@@ -1438,6 +1533,23 @@ abstract class PageAbstract {
    */
   public function __toString() {
     return (string)$this->id();
+  }
+
+  /**
+   * Improved var_dump() output
+   * 
+   * @return array
+   */
+  public function __debuginfo() {
+
+    $data = $this->toArray();
+
+    return array_merge($data, [
+      'content'    => $this->content(),
+      'children'   => $this->children(),
+      'siblings'   => $this->siblings(false),
+      'files'      => $this->files(),
+    ]);
   }
 
 }

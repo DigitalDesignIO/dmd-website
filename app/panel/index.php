@@ -22,11 +22,6 @@ if(file_exists($index . DS . 'site.php')) {
   $kirby = kirby();
 }
 
-// fix the base url for the kirby installation
-if(!isset($kirby->urls->index)) {
-  $kirby->urls->index = dirname($kirby->url());
-}
-
 // the default index directory
 if(!isset($kirby->roots->index)) {
   $kirby->roots->index = $index;
@@ -42,14 +37,8 @@ if(!isset($kirby->roots->thumbs)) {
   $kirby->roots->thumbs = $index . DS . 'thumbs';
 }
 
-try {
+// create the panel object
+$panel = new Panel($kirby, __DIR__);  
 
-  // create the panel object
-  $panel = new Panel($kirby, __DIR__);  
-
-  // launch the panel
-  echo $panel->launch();
-
-} catch(Exception $e) {
-  echo Panel::fatal($e, __DIR__);
-}
+// launch the panel
+echo $panel->launch();

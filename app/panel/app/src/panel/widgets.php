@@ -17,6 +17,7 @@ class Widgets extends Collection {
     $this->defaults();
     $this->custom();    
     $this->sort();
+    $this->permissions();
 
   }
 
@@ -50,7 +51,7 @@ class Widgets extends Collection {
     $root  = panel()->roots()->widgets();
 
     foreach(dir::read($root) as $dir) {
-      $kirby->registry->set('widget', $dir, $root . DS . $dir);
+      $kirby->registry->set('widget', $dir, $root . DS . $dir, true);
     }
 
   }
@@ -61,7 +62,7 @@ class Widgets extends Collection {
     $root  = $kirby->roots()->widgets();
 
     foreach(dir::read($root) as $dir) {
-      $kirby->registry->set('widget', $dir, $root . DS . $dir);
+      $kirby->registry->set('widget', $dir, $root . DS . $dir, true);
     }
 
   }
@@ -85,6 +86,20 @@ class Widgets extends Collection {
     // append the unsorted widgets 
     foreach($this->available as $name => $dir) {
       $this->load($name);
+    }
+
+  }
+
+  public function permissions() {
+
+    foreach($this->data as $key => $widget) {
+      
+      $event = new Event('panel.widget.' . $key);
+
+      if($event->isDenied() && $key !== 'license') {
+        unset($this->data[$key]);        
+      }
+      
     }
 
   }

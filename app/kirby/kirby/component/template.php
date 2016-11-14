@@ -2,7 +2,9 @@
 
 namespace Kirby\Component;
 
+use Dir;
 use Exception;
+use F;
 use Page;
 use Tpl;
 
@@ -45,6 +47,21 @@ class Template extends \Kirby\Component {
   }
 
   /**
+   * Returns all available template files
+   *
+   * @return array
+   */
+  public function files() {
+    $files = dir::read($this->kirby->roots()->templates());
+    $files = array_filter($files, function($file) {
+      return f::extension($file) === 'php';
+    });
+    return array_map(function($file) {
+      return f::name($file);
+    }, $files);
+  }
+
+  /**
    * Returns a template file path by name
    *
    * @param string $name
@@ -79,10 +96,16 @@ class Template extends \Kirby\Component {
     }
 
     // merge and register the template data globally
+    $tplData = tpl::$data;
     tpl::$data = array_merge(tpl::$data, $data);
 
     // load the template
-    return tpl::load($file, null, $return);
+    $result = tpl::load($file, null, $return);
+
+    // reset the template data
+    tpl::$data = $tplData;
+
+    return $result;
 
   }
 

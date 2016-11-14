@@ -4,6 +4,7 @@ namespace Kirby\Registry;
 
 use A;
 use Exception;
+use Str;
 
 /**
  * Template Registy Entry
@@ -28,11 +29,16 @@ class Template extends Entry {
    * 
    * Must be an existing file
    * 
-   * @param string $name
+   * @param string/array $name
    * @param string $path
    */
   public function set($name, $path) {
-    
+
+    if(is_array($name)) {
+      foreach($name as $n) $this->set($n, $path);
+      return;
+    }
+
     if(!$this->kirby->option('debug') || file_exists($path)) {    
       return static::$templates[$name] = $path;
     } 
@@ -45,16 +51,28 @@ class Template extends Entry {
    * Retrieves a registered template file
    * 
    * @param string $name
-   * @return string
+   * @param boolean $representations If true, returns an array of representations
+   * @return string/array
    */
-  public function get($name) {
-    
-    $file = $this->kirby->component('template')->file($name);
+  public function get($name, $representations = false) {
 
-    if(file_exists($file)) {
-      return $file;
+    if($representations) {
+      $files = array_merge(static::$templates, $this->kirby->component('template')->files());
+
+      $result = [];
+      foreach($files as $file) {
+        if(str::startsWith($file, $name . '.')) $result[] = $file;
+      }
+
+      return $result;
     } else {
-      return a::get(static::$templates, $name);
+      $file = $this->kirby->component('template')->file($name);
+
+      if(file_exists($file)) {
+        return $file;
+      } else {
+        return a::get(static::$templates, $name);
+      }
     }
 
   }
