@@ -14,7 +14,6 @@
 
   <!-- build:css(app) assets/css/main.min.css -->
   <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-  <link rel="stylesheet" href="assets/css/hover.css">
   <link rel="stylesheet" href="assets/css/main.css">
   <!-- endbuild -->
 
