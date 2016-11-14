@@ -4,6 +4,8 @@
   "description": "In order to run and build this project you need to install the following on your machine:",
   "dependencies": {
     "critical": "^0.8.0",
+    "gulp-buffer": "0.0.2",
+    "gulp-rev": "^7.1.2",
     "gulp-run": "^1.7.1"
   },
   "devDependencies": {
