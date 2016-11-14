@@ -6,8 +6,6 @@
     $news->local()->exists() ? : $news->update(array('local' => 'true'), 'de');
 
     $fbe = FacebookEvents($news);
-    // $fb_event = $fbe->getFacebookEvents($fb);
-    // $fb_event = $fbe->getEvent($fb);
     $fb_event = $fbe->getNews('1676014109285451');
 
     // serve content from local "content/1-news/**" folder or from facebook if the token is expired is outdated
@@ -41,16 +39,14 @@
             }
           ?>
         </p>
-
       <div class="news">
         <img
-          src=""
-          srcset="
-          <?php
-            if($fromLocal == 'true') {
+          src="data:image/png;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="
+          data-src="<?php
+            if(($fromLocal == 'true' AND $news->hasImages())) {
               echo thumb($news->images()->first(), ['width' => 690, 'height' => 320, 'crop' => true], false);
             } else {
-              echo thumb($fb_event->generateThumbnail($fb_event->cover(), $news), ['width' => 690, 'height' => 320, 'crop' => true], false);
+             echo thumb($fbe->generateThumbnail($fb_event->event_image(), $news), ['width' => 690, 'height' => 320, 'crop' => true], false);
             }
           ?>"
           width="690"

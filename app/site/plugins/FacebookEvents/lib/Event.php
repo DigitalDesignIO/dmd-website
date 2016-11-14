@@ -189,6 +189,7 @@
         'start_date_time'=> $event->start_date_time,
         'place_city' => $event->place_city,
         'place_street' => $event->place_street,
+        'event_image' => $event->cover
       ), 'de');
     }
 
@@ -222,6 +223,11 @@
       $year = date_format($format, 'Y');
 
       return ['date' => $date, 'time' => $time, 'day' => $day, 'month' => $month, 'year' => $year, 'date_id' => $date_id];
+    }
+
+    public function hello() {
+      echo "hello";
+      return "hello";
     }
 
     public function generateThumbnail($imageUrl, $page) {

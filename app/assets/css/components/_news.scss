@@ -69,3 +69,9 @@
     }
   }
 }
+
+@media #{$small-only} {
+  .news .news-text .news-description {
+    font-size: 14px;
+  }
+}

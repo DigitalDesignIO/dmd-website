@@ -20,6 +20,11 @@ fields:
     type: text
     disabled: true
 
+  event_image:
+    label: Veranstaltungs Image
+    type: url
+    disabled: true
+
   description:
     label: Description
     type:  textarea
