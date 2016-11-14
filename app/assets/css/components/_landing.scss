@@ -63,7 +63,7 @@
 
   .orbit-bullets li {
     background-color: $white;
-    
+
     &.active {
       background-color: $primary-color;
     }
@@ -132,6 +132,18 @@
 @media (max-width: 1039px) {
   .landing {
     top: 50px;
+  }
+}
+
+@media #{$medium-only} {
+  .orbit-container .orbit-slides-container > * .orbit-caption {
+    bottom: 30%;
+  }
+  .landing {
+    margin-bottom: 0;
+    .title-wrapper {
+      bottom: 40%;
+    }
   }
 }
 

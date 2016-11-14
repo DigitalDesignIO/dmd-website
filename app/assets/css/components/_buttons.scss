@@ -48,6 +48,12 @@
     }
   }
 }
+@media #{$medium-only} {
+  .button.round.button-apply {
+    font-size: 36px;
+    height: 79px;
+  }
+}
 
 @media #{$small-only} {
   .button.round.button-apply {
