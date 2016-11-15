@@ -12,10 +12,8 @@
 
   <?php snippet('inline') ?>
 
-  <!-- build:css(app) assets/css/main.min.css -->
-  <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-  <link rel="stylesheet" href="assets/css/main.css">
-  <!-- endbuild -->
+  <?php echo css('assets/css/bootstrap.min.css') ?>
+  <?php echo css('assets/css/main.css') ?>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 

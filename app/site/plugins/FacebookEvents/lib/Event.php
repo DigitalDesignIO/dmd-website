@@ -225,11 +225,6 @@
       return ['date' => $date, 'time' => $time, 'day' => $day, 'month' => $month, 'year' => $year, 'date_id' => $date_id];
     }
 
-    public function hello() {
-      echo "hello";
-      return "hello";
-    }
-
     public function generateThumbnail($imageUrl, $page) {
       // some image url for testing purposes
       // $imageUrl = "https://scontent-frt3-1.xx.fbcdn.net/t31.0-8/14714803_1876588675894659_4416670865134567220_o.jpg";

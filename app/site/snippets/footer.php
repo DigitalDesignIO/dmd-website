@@ -18,31 +18,11 @@
 	  </div>
 	</div>
 	<!-- ./footer -->
-	<!-- <script src="scripts/vendor/jquery.min.js"></script>-->
 
-	<!-- build:js(app) scripts/vendor.js async -->
-	<script src="scripts/vendor/bootstrap.min.js"></script>
-	<script src="scripts/vendor/picturefill.min.js"></script>
-	<script src="scripts/vendor/foundation.js"></script>
-	<script src="scripts/vendor/foundation.orbit.js"></script>
-	<script src="scripts/vendor/foundation.magellan.js"></script>
-	<script src="scripts/vendor/fastclick.js"></script>
-	<script src="scripts/custom.js"></script>
-	<!-- endbuild -->
-
-	<!-- defer loading javascript (@see: https://varvy.com/pagespeed/defer-many-javascripts.html)-->
-	<script type="text/javascript">
-		function downloadJSAtOnload() {
-		var element = document.createElement("script");
-		element.src = "scripts/defer.js";
-		document.body.appendChild(element);
-		}
-		if (window.addEventListener)
-		window.addEventListener("load", downloadJSAtOnload, false);
-		else if (window.attachEvent)
-		window.attachEvent("onload", downloadJSAtOnload);
-		else window.onload = downloadJSAtOnload;
-	</script>
+	<!-- scripts -->
+	<?php echo js('assets/scripts/vendor/vendor.js', false); ?>
+	<?php echo js('assets/scripts/defer/defer.js', true); ?>
+	<!-- endscripts -->
 
 	<!--defer loading images (@see: https://varvy.com/pagespeed/defer-images.html -->
 	<script>

@@ -1,30 +1,30 @@
 'use strict';
 
-var credentials = require('./credentials');
-
 var gulp = require('gulp'),
-ftp = require( 'vinyl-ftp' ),
-sass = require('gulp-sass'),
+fs = require('fs'),
 critical = require('critical');
 
 // load plugins
 var $ = require('gulp-load-plugins')({
      pattern: '*',
      rename: {
+         'gulp-gm': 'gm',
          'run-sequence': 'runSequence',
          'browserSync': 'browser-sync'
         }
    }
 );
 
+// preprocess sass
 gulp.task('sass', function () {
   return gulp.src('app/assets/css/*.scss')
     .pipe($.sourcemaps.init())
-    .pipe(sass({outputStyle: 'expanded'}).on('error', sass.logError))
+    .pipe($.sass({outputStyle: 'expanded'}).on('error', $.sass.logError))
     .pipe($.sourcemaps.write())
     .pipe(gulp.dest('app/assets/css/'));
 });
 
+// autoprefix styles and add hash for cache busting via gulp rev
 gulp.task('styles', ['sass'], function() {
   return gulp.src(['app/assets/css/*.css'])
     .pipe($.csso())
@@ -32,37 +32,61 @@ gulp.task('styles', ['sass'], function() {
       browsers: ['last 2 versions'],
       cascade: true
       }))
-    .pipe(gulp.dest('dist/assets/css'));
+    .pipe($.buffer())
+    .pipe($.if('**/main.css', $.rev()))
+   // .pipe($.rev())      // use gulp-rev for cache busting
+    .pipe(gulp.dest('dist/assets/css'))
+    .pipe($.rev.manifest({
+        base: './',
+    }))
+    .pipe(gulp.dest('dist/'));
 });
 
-gulp.task('useref', function () {
-    return gulp.src(['app/site/snippets/header.php', 'app/site/snippets/footer.php', 'app/site/snippets/projectfooter.php'])
-        .pipe($.useref({searchPath: 'app/'}))
-        .pipe($.if('**/header.php', $.rename('site/snippets/header.php')))
-        .pipe($.if('**/footer.php', $.rename('site/snippets/footer.php')))
-        .pipe($.if('**/projectfooter.php', $.rename('site/snippets/projectfooter.php')))
-        .pipe($.if('*.js', $.uglify()))
-        .pipe($.if('*.css', $.csso()))
-        .pipe(gulp.dest('dist'))
+// minify and concat all scripts
+gulp.task('scripts', ['defer'], function(){
+    return gulp.src('app/assets/scripts/*.js')
+        // .pipe($.jshint())
+        .pipe($.concat('vendor.js'))
+        .pipe(gulp.dest('./app/assets/scripts/vendor/'))
+        .pipe($.uglify())
+        .pipe($.rename('vendor.min.js'))
+        // .pipe($.jshint.reporter(require('jshint-stylish')))
+        .pipe(gulp.dest('./dist/assets/scripts/vendor/'))
         .pipe($.size());
 });
 
-// gulp.task('scripts', function(){
-//     return gulp.src('app/scripts/*.js')
-//         .pipe($.jshint())
-//         .pipe($.uglify())
-//         .pipe($.jshint.reporter(require('jshint-stylish')))
-//         .pipe($.concat('vendor.js'))
-//         .pipe(gulp.dest('./dist/scripts'))
-//         .pipe($.size());
-// });
+// minify and concat the scripts that can be loaded defered
+gulp.task('defer', function(){
+    return gulp.src(['app/assets/scripts/defer/*.js', '!app/assets/scripts/defer/defer.js'])
+        .pipe($.concat('defer.js'))
+        .pipe(gulp.dest('./app/assets/scripts/defer/'))
+        .pipe($.uglify())
+        .pipe($.rename('defer.min.js'))
+        .pipe(gulp.dest('./dist/assets/scripts/defer/'))
+        .pipe($.size());
+});
 
+// adjust the javascript and css linking so they match their minified version (via regex)
+// vendor.js => vendor.min.js
+// defer.js => defer.min.js
+// main.css => main.min.css
 gulp.task('rewrite', function(){
-   return gulp.src(['dist/site/snippets/header.php', 'dist/site/snippets/footer.php', 'dist/site/snippets/projectfooter.php'], { base: './' }) //must define base so I can overwrite the src file below. Per http://stackoverflow.com/questions/22418799/can-gulp-overwrite-all-src-files
-        .pipe($.if('**/header.php', $.replace(/<link.*href=\"assets\/css\/main\.min\.css\".*>/g, '<?php echo css(\"assets/css/main.min.css\") ?>')))
-        .pipe($.if('**/footer.php', $.replace(/<script.*src=\"scripts\/vendor\.js\".*><\/script>/g, '<?php echo js(\"scripts/vendor.js\", true) ?>')))
-        .pipe($.if('**/projectfooter.php', $.replace(/<script.*src=\"scripts\/vendor_projects\.js\".*><\/script>/g, '<?php echo js(\"scripts/vendor_projects.js\", true) ?>')))
+    var data = JSON.parse(fs.readFileSync('dist/rev-manifest.json', 'utf8'));
+    return gulp.src(['dist/site/snippets/footer/footer.php', 'dist/site/snippets/header.php'], { base: './' }) //must define base so I can overwrite the src file below. Per http://stackoverflow.com/questions/22418799/can-gulp-overwrite-all-src-files
+        .pipe($.if('**/footer.php', $.replace(/<\?php.*echo.*js\(\'assets\/scripts\/vendor\/vendor\.js\'\).*\?>/g, '<?php echo js(\"assets/scripts/vendor/vendor.min.js\") ?>')))
+        .pipe($.if('**/footer.php', $.replace(/<\?php.*echo.*js\(\'assets\/scripts\/defer\/defer\.js\'.*\).*\?>/g, '<?php echo js(\"assets/scripts/defer/defer.min.js\", true) ?>')))
+        .pipe($.if('**/header.php', $.replace(/<\?php.*echo.*css\(\'assets\/css\/main.css\'.*\).*\?>/g, '<?php echo css(\"assets/css/' + data["main.css"] + '\") ?>')))
         .pipe(gulp.dest('./')); //Write the file back to the same spot.
+});
+
+// requires graphicsmagick http://www.graphicsmagick.org/download.html
+// brew install graphicsmagick
+gulp.task('imageResize', function() {
+  gulp.src(['app/assets/images/**/*.jpg', 'app/assets/images/**/*.png'])
+    .pipe($.gm(function (gmfile) {
+      return gmfile.resize(1920);
+    }))
+    .pipe(gulp.dest('dist/assets/images/'))
 });
 
 gulp.task('images', function () {
@@ -80,25 +104,15 @@ gulp.task('images', function () {
 gulp.task('copy', function () {
   return gulp.src([
     'app/**/*',
-    '!app/scripts/custom.js',
-    '!app/scripts/vendor/*',
+    '!app/assets/scripts/custom.js',
+    '!app/assets/scripts/vendor/*',
+    '!app/assets/scripts/*',
     '!app/assets/images/**/*.*',
     '!app/assets/css/**/*',
-    '!app/site/snippets/header.php', // dont copy this file cause it gets rewritten by the rewrite task
-    '!app/site/snippets/projectfooter.php', // dont copy this file cause it gets rewritten by the rewrite task
-    '!app/site/snippets/footer.php' // dont copy this file cause it gets rewritten by the rewrite task
     ],{
      dot:true
     }).pipe(gulp.dest('dist'))
       .pipe($.size({title: 'Copy'}));
-});
-
-gulp.task('fonts', function () {
-    return gulp.src('app/assets/fonts/*')
-        .pipe($.filter('**/*.{eot,svg,ttf,woff}'))
-        .pipe($.flatten())
-        .pipe(gulp.dest('dist/assets/fonts'))
-        .pipe($.size());
 });
 
 // generate index.html via curl for inlining the above the fold css
@@ -108,10 +122,11 @@ gulp.task('generate-index', function() {
 
 // inline the above the fold
 gulp.task('critical', ['generate-index'], function (cb) {
+    var data = JSON.parse(fs.readFileSync('dist/rev-manifest.json', 'utf8'));
     critical.generate({
         inline: false,
         base: '.',
-        css: ['dist/assets/css/main.min.css'],
+        css: ['dist/assets/css/' + data['main.css']],
         src: 'dist/index.html',
         dest: 'dist/assets/css/inline.css',
         minify: true,
@@ -120,25 +135,33 @@ gulp.task('critical', ['generate-index'], function (cb) {
     });
 });
 
-// Clean Output Directory
+// Optimize web fonts
+gulp.task('fonts', function () {
+    return gulp.src('app/assets/fonts/*')
+        .pipe($.filter('**/*.{eot,svg,ttf,woff}'))
+        .pipe($.flatten())
+        .pipe(gulp.dest('dist/assets/fonts'))
+        .pipe($.size());
+});
+
+// Clean dist Directory
 gulp.task('clean', $.del.bind(null, ['dist']));
+
 // delete the output folder which curl creates
-gulp.task('delOutput', $.del.bind(null, ['dist/index.html']));
+gulp.task('delOutput', $.del.bind(null, ['output']));
 
 // Build Production Files, the Default Task
 gulp.task('build', ['clean'], function (cb) {
-  $.runSequence(['useref', 'styles', 'fonts', 'images', 'copy'], ['rewrite', 'critical'], 'delOutput', cb);
+  $.runSequence(['styles', 'fonts', 'images', 'copy', 'scripts'], ['rewrite', 'critical'], 'delOutput', cb);
 });
 
 gulp.task('default',  function () {
-    console.log('Please choose npm run build, npm run deploy or npm run serve');
+    console.log('Please choose npm run build or npm run serve');
 });
 
-/*
 gulp.task('open', ['styles', 'scripts'], function () {
     require('opn')('http://localhost:80');
 });
-*/
 
 gulp.task('dev', $.shell.task([
   'php -S localhost:9090',
@@ -151,13 +174,13 @@ gulp.task('watch', function() {
     // watch for changes
     gulp.watch([
         'app/assets/css/**/*.css',
-        'app/scripts/**/*.js',
+        'app/assets/scripts/**/*.js',
         'app/**/*.php'
     ]).on('change', $.browserSync.reload);
 
     gulp.watch('app/assets/css/**/*.scss', ['sass']);
     gulp.watch('app/assets/images/**/*', ['images']);
-    gulp.watch('app/assets/scripts/**/*.js', ['scripts']);
+    gulp.watch(['app/assets/scripts/*.js'], ['scripts']);
 });
 
 gulp.task('serve', function () {
@@ -168,36 +191,12 @@ gulp.task('serve', function () {
 
   // watch for changes
   gulp.watch([
-    'app/assets/css/**/*.css',
-    'app/scripts/**/*.js',
+    'app/assets/css/*.css',
+    'app/assets/scripts/**/*.js',
     'app/**/*.php'
   ]).on('change', $.browserSync.reload);
 
   gulp.watch('app/assets/css/**/*.scss', ['sass']);
   gulp.watch('app/assets/images/**/*', ['images']);
-  gulp.watch('app/assets/scripts/**/*.js', ['scripts']);
-});
-
-gulp.task( 'deploy', function () {
-
-    var conn = ftp.create( {
-        host: credentials.getHost,
-        user: credentials.getUser,
-        password: credentials.getPassword,
-        parallel: 10,
-        log: $.util.log
-    } );
-
-    var globs = [
-        'dist/**',
-        '!dist/content/**'
-    ];
-
-    // using base = '.' will transfer everything to /public_html correctly
-    // turn off buffering in gulp.src for best performance
-
-    return gulp.src( globs, { cwd: 'test.digitaldesign.io', buffer: false } )
-        .pipe( conn.newer( '/test.digitaldesign.io' ) ) // only upload newer files
-        .pipe( conn.dest( '/test.digitaldesign.io' ) );
-
+  gulp.watch('app/assets/scripts/*.js', ['scripts']);
 });
