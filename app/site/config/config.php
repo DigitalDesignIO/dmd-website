@@ -24,8 +24,7 @@ c::set('license', $license);
 
 c::set('debug', true);
 
-// https://github.com/iksi/KirbyFingerprint
-c::set('fingerprint', true);
+c::set('cache', false);
 
 /* hooks */
 
