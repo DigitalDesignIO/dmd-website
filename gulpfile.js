@@ -33,7 +33,7 @@ gulp.task('styles', ['sass'], function() {
       cascade: true
       }))
     .pipe($.buffer())
-    .pipe($.if('!**/panel.css' && '!**/bootstrap.min.css', hash()))
+    .pipe($.if('**/main.css', hash()))
     .pipe(gulp.dest('dist/assets/css'))
     .pipe(hash.manifest('styles-manifest.json')) // Switch to the manifest file
     .pipe(gulp.dest('dist/'));
