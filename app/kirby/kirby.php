@@ -30,7 +30,6 @@ class Kirby {
   public $request;
   public $components = [];
   public $registry;
-  public $errorHandling;
 
   static public function instance($class = null) {
     if(!is_null(static::$instance)) return static::$instance;
@@ -70,6 +69,7 @@ class Kirby {
       'roles'                           => array(),
       'cache'                           => false,
       'debug'                           => 'env',
+      'whoops'                          => true,
       'ssl'                             => false,
       'cache.driver'                    => 'file',
       'cache.options'                   => array(),
@@ -214,9 +214,6 @@ class Kirby {
     email::$defaults['body']    = $this->option('email.body');
     email::$defaults['options'] = $this->option('email.options');
 
-    // start the error handler
-    $this->errorHandling = new ErrorHandling($this);
-
   }
 
   /**
@@ -297,34 +294,6 @@ class Kirby {
 
     };
 
-    if($site->multilang()) {
-
-      // first register all languages that are not at the root of the domain
-      // otherwise they would capture all requests
-      foreach($site->languages()->sortBy('isRoot', 'asc') as $lang) {
-        
-        $pattern = ($lang->path())? $lang->path() . '/(:all?)' : '(:all)';
-        $routes[] = array(
-          'pattern' => $pattern,
-          'host'    => $lang->host(),
-          'method'  => 'ALL',
-          'lang'    => $lang,
-          'action'  => $otherRoute
-        );
-
-      }
-
-      // fallback if no language is at the root
-      $routes[] = array(
-        'pattern' => '/',
-        'method'  => 'ALL',
-        'action'  => function() use($site) {
-          return go($site->defaultLanguage()->url());
-        }
-      );
-
-    }
-
     // tinyurl handling
     $routes['tinyurl'] = $this->component('tinyurl')->route();
 
@@ -353,19 +322,44 @@ class Kirby {
         } else {          
           return new Response('The file could not be found', f::extension($path), 404);
         }
-
-
       }
     );
 
     // all other urls
-    if(!$site->multilang()) {
+    if($site->multilang()) {
+
+      // first register all languages that are not at the root of the domain
+      // otherwise they would capture all requests
+      foreach($site->languages()->sortBy('isRoot', 'asc') as $lang) {
+        $pattern = ($lang->path())? $lang->path() . '/(:all?)' : '(:all)';
+        $routes[] = array(
+          'pattern' => $pattern,
+          'host'    => $lang->host(),
+          'method'  => 'ALL',
+          'lang'    => $lang,
+          'action'  => $otherRoute
+        );
+      }
+
+      // fallback if no language is at the root
+      $routes['others'] = array(
+        'pattern' => '(.*)', // this can't be (:all) to avoid overriding the actual language route
+        'method'  => 'ALL',
+        'action'  => function() use($site) {
+          return go($site->defaultLanguage()->url());
+        }
+      );
+
+    } else {
+
+      // all other urls for single-language installations
       $routes['others'] = array(
         'pattern' => '(:all)',
         'method'  => 'ALL',
         'lang'    => false,
         'action'  => $otherRoute
       );
+
     }
 
     return $routes;
@@ -659,6 +653,9 @@ class Kirby {
     // this will trigger the configuration
     $site = $this->site();
 
+    // start the error handler
+    new ErrorHandling($this);
+
     // force secure connections if enabled
     if($this->option('ssl') and !r::secure()) {
       // rebuild the current url with https
@@ -763,6 +760,11 @@ class Kirby {
         if(in_array($key, static::$triggered[$pattern])) continue;
 
         static::$triggered[$pattern][] = $key;
+
+        // make sure that we always have a Closure object
+        if(is_string($callback)) {
+          $callback = (new ReflectionFunction($callback))->getClosure();
+        }
 
         try {
           $callback = $callback->bindTo($event);
