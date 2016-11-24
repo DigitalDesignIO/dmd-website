@@ -5,6 +5,7 @@
   "dependencies": {
     "critical": "^0.8.0",
     "gulp-buffer": "0.0.2",
+    "gulp-hash": "^3.1.0",
     "gulp-rev": "^7.1.2",
     "gulp-run": "^1.7.1"
   },

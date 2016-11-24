@@ -2,6 +2,7 @@
 
 var gulp = require('gulp'),
 fs = require('fs'),
+hash = require('gulp-hash'),
 critical = require('critical');
 
 // load plugins
@@ -24,7 +25,6 @@ gulp.task('sass', function () {
     .pipe(gulp.dest('app/assets/css/'));
 });
 
-// autoprefix styles and add hash for cache busting via gulp rev
 gulp.task('styles', ['sass'], function() {
   return gulp.src(['app/assets/css/*.css'])
     .pipe($.csso())
@@ -33,25 +33,23 @@ gulp.task('styles', ['sass'], function() {
       cascade: true
       }))
     .pipe($.buffer())
-    .pipe($.if('**/main.css', $.rev()))
-   // .pipe($.rev())      // use gulp-rev for cache busting
+    .pipe($.if('!**/panel.css' && '!**/bootstrap.min.css', hash()))
     .pipe(gulp.dest('dist/assets/css'))
-    .pipe($.rev.manifest({
-        base: './',
-    }))
+    .pipe(hash.manifest('styles-manifest.json')) // Switch to the manifest file
     .pipe(gulp.dest('dist/'));
 });
 
 // minify and concat all scripts
 gulp.task('scripts', ['defer'], function(){
     return gulp.src('app/assets/scripts/*.js')
-        // .pipe($.jshint())
         .pipe($.concat('vendor.js'))
         .pipe(gulp.dest('./app/assets/scripts/vendor/'))
         .pipe($.uglify())
         .pipe($.rename('vendor.min.js'))
-        // .pipe($.jshint.reporter(require('jshint-stylish')))
+        .pipe(hash())
         .pipe(gulp.dest('./dist/assets/scripts/vendor/'))
+        .pipe(hash.manifest('scripts-manifest.json')) // Switch to the manifest file
+        .pipe(gulp.dest('dist')) // Write the manifest file
         .pipe($.size());
 });
 
@@ -62,7 +60,10 @@ gulp.task('defer', function(){
         .pipe(gulp.dest('./app/assets/scripts/defer/'))
         .pipe($.uglify())
         .pipe($.rename('defer.min.js'))
+        .pipe(hash())
         .pipe(gulp.dest('./dist/assets/scripts/defer/'))
+        .pipe(hash.manifest('scripts-manifest.json')) // Switch to the manifest file
+        .pipe(gulp.dest('dist')) // Write the manifest file
         .pipe($.size());
 });
 
@@ -71,11 +72,12 @@ gulp.task('defer', function(){
 // defer.js => defer.min.js
 // main.css => main.min.css
 gulp.task('rewrite', function(){
-    var data = JSON.parse(fs.readFileSync('dist/rev-manifest.json', 'utf8'));
-    return gulp.src(['dist/site/snippets/footer/footer.php', 'dist/site/snippets/header.php'], { base: './' }) //must define base so I can overwrite the src file below. Per http://stackoverflow.com/questions/22418799/can-gulp-overwrite-all-src-files
-        .pipe($.if('**/footer.php', $.replace(/<\?php.*echo.*js\(\'assets\/scripts\/vendor\/vendor\.js\'\).*\?>/g, '<?php echo js(\"assets/scripts/vendor/vendor.min.js\") ?>')))
-        .pipe($.if('**/footer.php', $.replace(/<\?php.*echo.*js\(\'assets\/scripts\/defer\/defer\.js\'.*\).*\?>/g, '<?php echo js(\"assets/scripts/defer/defer.min.js\", true) ?>')))
-        .pipe($.if('**/header.php', $.replace(/<\?php.*echo.*css\(\'assets\/css\/main.css\'.*\).*\?>/g, '<?php echo css(\"assets/css/' + data["main.css"] + '\") ?>')))
+    var styles = JSON.parse(fs.readFileSync('dist/styles-manifest.json', 'utf8'));
+    var scripts = JSON.parse(fs.readFileSync('dist/scripts-manifest.json', 'utf8'));
+    return gulp.src(['dist/site/snippets/footer.php', 'dist/site/snippets/header.php'], { base: './' })
+        .pipe($.if('**/footer.php', $.replace(/<\?php.*echo.*js\(\'assets\/scripts\/vendor\/vendor\.js\'.*\).*\?>/g, '<?php echo js(\"assets/scripts/vendor/' + scripts["vendor.min.js"]  + '\") ?>')))
+        .pipe($.if('**/footer.php', $.replace(/<\?php.*echo.*js\(\'assets\/scripts\/defer\/defer\.js\'.*\).*\?>/g, '<?php echo js(\"assets/scripts/defer/' + scripts["defer.min.js"] + '\", true) ?>')))
+        .pipe($.if('**/header.php', $.replace(/<\?php.*echo.*css\(\'assets\/css\/main.css\'.*\).*\?>/g, '<?php echo css(\"assets/css/' + styles["main.css"] + '\") ?>')))
         .pipe(gulp.dest('./')); //Write the file back to the same spot.
 });
 
@@ -107,6 +109,7 @@ gulp.task('copy', function () {
     '!app/assets/scripts/custom.js',
     '!app/assets/scripts/vendor/*',
     '!app/assets/scripts/*',
+    '!app/assets/scripts/defer/*',
     '!app/assets/images/**/*.*',
     '!app/assets/css/**/*',
     ],{
@@ -122,7 +125,7 @@ gulp.task('generate-index', function() {
 
 // inline the above the fold
 gulp.task('critical', ['generate-index'], function (cb) {
-    var data = JSON.parse(fs.readFileSync('dist/rev-manifest.json', 'utf8'));
+    var data = JSON.parse(fs.readFileSync('dist/styles-manifest.json', 'utf8'));
     critical.generate({
         inline: false,
         base: '.',
