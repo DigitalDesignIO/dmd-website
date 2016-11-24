@@ -22,7 +22,8 @@ for more information: http://getkirby.com/license
 
 c::set('license', $license);
 
-c::set('debug', true);
+c::set('debug', false);
+c::set('whoops', false);
 
 c::set('cache', false);
 
