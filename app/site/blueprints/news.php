@@ -2,7 +2,7 @@
 
 title: News
 pages: false
-files: false
+files: true
 fields:
   Title: title
   Headline: headline

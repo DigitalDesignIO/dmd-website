@@ -7,7 +7,7 @@
 
     $fbe = FacebookEvents($news);
     $fb_event = $fbe->getNews('1676014109285451');
-
+    
     // serve content from local "content/1-news/**" folder or from facebook if the token is expired is outdated
     // depending on from where the data is coming we need to treat the data differently.
     // Thats what this variable is good for
@@ -43,7 +43,7 @@
         <img
           src="data:image/png;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="
           data-src="<?php
-            if(($fromLocal == 'true' AND $news->hasImages())) {
+            if( ($fromLocal == 'true' AND $news->hasImages() ) AND hash('md5', $fb_event->event_image()) === $news->images()->first()->name() ) {
               echo thumb($news->images()->first(), ['width' => 690, 'height' => 320, 'crop' => true], false);
             } else {
              echo thumb($fbe->generateThumbnail($fb_event->event_image(), $news), ['width' => 690, 'height' => 320, 'crop' => true], false);
@@ -84,7 +84,7 @@
 
   <div class="row content">
     <div class="medium-offset-3 medium-7 columns">
-      <p class="text-center"><a class="button round" target="_blank" href="https://www.facebook.com/digitaldesign.de/events">Alle Termine</a></p>
+      <p class="text-center"><a class="icon-link-ext button round" target="_blank" href="https://www.facebook.com/digitaldesign.de/events">Alle Termine</a></p>
     </div>
   </div>
   <!-- ./content-block -->
