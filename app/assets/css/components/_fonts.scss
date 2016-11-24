@@ -33,43 +33,45 @@
   font-weight: normal;
   font-style: normal;
 }
- 
+
 [class^='icon-']:before,
-[class*=' icon-']:before {
+[class*=' icon-']:before,
+[class^='icon-']:after,
+[class*=' icon-']:after {
   font-family: 'fontello';
   font-style: normal;
   font-weight: normal;
- 
+
   display: inline-block;
   text-decoration: inherit;
   width: 1em;
   margin-right: .2em;
   text-align: center;
   /* opacity: .8; */
- 
+
   /* For safety - reset parent styles, that can break glyph codes*/
   font-variant: normal;
   text-transform: none;
- 
+
   /* fix buttons height, for twitter bootstrap */
   line-height: 1em;
- 
+
   /* Animation center compensation - margins should be symmetric */
   /* remove if not needed */
   margin-left: .2em;
- 
+
   /* you can be more comfortable with increased icons size */
   /* font-size: 120%; */
- 
+
   /* Font smoothing. That was taken from TWBS */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
- 
+
   /* Uncomment for 3D effect */
   /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
 }
- 
-.icon-facebook:before { 
+
+.icon-facebook:before {
   color: $white;
   content: '\e800';
   text-decoration: none;
@@ -83,6 +85,7 @@
 .icon-github-text:before { content: '\e807'; }
 .icon-github:before { content: '\e808'; }
 .icon-codepen:before { content: '\e80a'; }
+.icon-link-ext:after { content: '\f08e'; }
 
 // basics
 .browsehappy {
@@ -135,8 +138,8 @@ h5 {
   padding: 0;
 }
 
-p, 
-.row ul > li, 
+p,
+.row ul > li,
 .row ol > li {
   font-family: 'Circular-Book', sans-serif;
   font-size: 20px;
@@ -152,31 +155,6 @@ blockquote {
     left: -19px;
     font-size: 20px;
     top: 0;
-  }
-}
-
-
-.extern {
-  position: relative;
-
-  &:before {
-    background: url('../images/arrow_blank.svg') bottom left no-repeat;
-    background-size: 30px 30px;
-    content: '';
-    height: 25px;
-    left: -28px;
-    position: absolute;
-    width: 25px;
-  }
-
-  &:hover:before {
-    background: url('../images/arrow_blank_hover.svg') bottom left no-repeat;
-    background-size: 30px 30px;
-    content: '';
-    height: 25px;
-    left: -28px;
-    position: absolute;
-    width: 25px;
   }
 }
 
