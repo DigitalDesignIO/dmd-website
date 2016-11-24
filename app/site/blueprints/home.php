@@ -2,7 +2,9 @@
 
 title: Home
 pages: false
-visible: false
+visible: true
+icon: home
+
 files:
   fields:
     focus:

@@ -5,7 +5,12 @@ pages: false
 files: false
 preview: parent
 deletable: false
+icon: newspaper-o
+
 fields:
+  title:
+    label: Title
+    type:  text
   contact:
     label: Titel linke Spalte
     type: text

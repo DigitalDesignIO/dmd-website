@@ -2,8 +2,11 @@
 
 title: Default
 files: false
-pages: 
-  template: 
+icon: newspaper-o
+preview: parent
+
+pages:
+  template:
     - contentblock
     - contenttwocolumns
     - contentarrowlist

@@ -2,6 +2,8 @@
 
 title: Error
 pages: false
+icon: bolt
+
 files: false
 fields:
   title:

@@ -3,6 +3,8 @@
 title: News
 pages: false
 files: true
+icon: facebook-official
+
 fields:
   Title: title
   Headline: headline
