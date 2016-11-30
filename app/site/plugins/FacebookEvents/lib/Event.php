@@ -23,92 +23,48 @@
     private $event_endtime_id = '';
     private $local = '';
     private $expires = '';
-
     private $fb_page_id;
 
-    public function event_url() {
-      return $this->event_url;
-    }
+    public function event_url() { return $this->event_url; }
 
-    public function id() {
-      return $this->id;
-    }
+    public function id() { return $this->id; }
 
-    public function name() {
-      return $this->name;
-    }
+    public function name() { return $this->name; }
 
-    public function description() {
-      return $this->description;
-    }
+    public function description() { return $this->description; }
 
-    public function place() {
-      return $this->place;
-    }
+    public function place() { return $this->place; }
 
-    public function place_city() {
-      return $this->place_city;
-    }
+    public function place_city() { return $this->place_city; }
 
-    public function place_street() {
-      return $this->place_street;
-    }
+    public function place_street() { return $this->place_street; }
 
-    public function start_date() {
-      return $this->start_date;
-    }
+    public function start_date() { return $this->start_date; }
 
-    public function start_date_humanized() {
-      return $this->start_date_humanized;
-    }
+    public function start_date_humanized() { return $this->start_date_humanized; }
 
-    public function start_date_month() {
-      return $this->start_date_month;
-    }
+    public function start_date_month() { return $this->start_date_month; }
 
-    public function start_date_day() {
-      return $this->start_date_day;
-    }
+    public function start_date_day() { return $this->start_date_day; }
 
-    public function start_date_year() {
-      return $this->start_date_year;
-    }
+    public function start_date_year() { return $this->start_date_year; }
 
-    public function start_date_time() {
-      return $this->start_date_time;
-    }
+    public function start_date_time() { return $this->start_date_time; }
 
-    public function cover() {
-      return $this->cover;
-    }
+    public function cover() { return $this->cover; }
 
-    public function end_date() {
-      return $this->end_date;
-    }
+    public function end_date() { return $this->end_date; }
 
-    public function local() {
-      return $this->local;
-    }
+    public function local() { return $this->local; }
 
     public function __construct($page) {
       $this->page_obj = $page;
-      $this->local = 'false';
-    }
-
-    public function getNews($facebookPageId) {
-      // fetch data from facebook api
-      if($this->isExpired($this->page_obj->expires())) {
-      // if(true) {
-        $events = $this->getFacebookEvents($facebookPageId);
-        return $this->getEvent($events);
-      }
-      else {
-        // serve from local kirby folder "content/1-news/**"
-        return $this->page_obj;
-      }
     }
 
     // TODO: implement an fallback when the access_token gets invalid
+    /*
+    * fetch Event from Facebook API
+    */
     public function getFacebookEvents($facebookPageId) {
       $this->fb_page_id = $facebookPageId;
 
@@ -135,7 +91,6 @@
 
       $events = json_decode($json, true, 512, JSON_BIGINT_AS_STRING);
 
-      // return $this->getEvent($events);
       return $events;
     }
 
@@ -152,8 +107,10 @@
       $this->place_city = isset($event['place']['location']['city']) ? $event['place']['location']['city'] : '';
       $this->place_street = isset($event['place']['location']['street']) ? $event['place']['location']['street'] : '';
       $this->end_date = isset($event['end_time']) ? $event['end_time'] : '';
-      $this->cover = isset($event['cover']['source']) ? $event['cover']['source'] : '';
       $this->event_url = "https://facebook.com/events/{$event['id']}/";
+
+      $this->cover = $this->getCoverImage($event, $this->page_obj);
+
 
       if(isset($event['start_time'])) {
         $start_date = $this->parseFacebookDateFormat($event['start_time']);
@@ -171,26 +128,17 @@
 
       $this->expires = date('Y-m-d 12:00', strtotime('+1 day'));
 
-      $this->updateNews($this);
-
       return $this;
     }
 
-    private function updateNews($event) {
-      $this->page_obj->update(array(
-        'expires' => $event->expires,
-        'description' => $event->description,
-        'event_url' => $event->event_url,
-        'name' => $event->name,
-        'start_date_humanized' => $event->start_date_humanized,
-        'start_date_day'=> $event->start_date_day,
-        'start_date_month' => $event->start_date_month,
-        'start_date_year'=> $event->start_date_year,
-        'start_date_time'=> $event->start_date_time,
-        'place_city' => $event->place_city,
-        'place_street' => $event->place_street,
-        'event_image' => $event->cover
-      ), 'de');
+    private function getCoverImage($event, $page) {
+      if(isset($event['cover']['source'])) {
+        $url = $event['cover']['source'];
+        $cover = $this->generateThumbnail($url, $page);
+      } else {
+        $cover = undefined;
+      }
+      return $cover;
     }
 
     /*
@@ -234,7 +182,7 @@
 
       // check if there are images in folder content/1-news/**
       if($image = $page->images()->first()) {
-        // echo 'pictures exist <br>';
+        // echo 'pictures ' . $image->name() . ' exists<br>';
         if($image->name() === $imageName) {
           // echo 'image you want to create, already existed -> return<br>';
           return $image;
@@ -269,20 +217,6 @@
 
       // echo 'image ' . $imageName . ' got created <br>';
       return $image;
-    }
-
-    public function isExpired($date) {
-      date_default_timezone_set("Europe/Berlin");
-
-      $today = date("Y-m-d H:i:s");
-
-      if($today > $date) {
-      // if($today > '2016-10-24 10:10:10') { // test string
-        return true;
-      }
-      else {
-        return false;
-      }
     }
 
   }

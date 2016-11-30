@@ -1,17 +1,10 @@
   <?php
-
     // get $page object from kirby
     $news = $pages->findByURI('news');
-    // if the field "local" does not exist in "content/1-news/news.de.txt" create it
-    $news->local()->exists() ? : $news->update(array('local' => 'true'), 'de');
 
     $fbe = FacebookEvents($news);
-    $fb_event = $fbe->getNews('1676014109285451');
-    
-    // serve content from local "content/1-news/**" folder or from facebook if the token is expired is outdated
-    // depending on from where the data is coming we need to treat the data differently.
-    // Thats what this variable is good for
-    $fromLocal = $fb_event->local();
+    $events = $fbe->getFacebookEvents('1676014109285451');
+    $fb_event = $fbe->getEvent($events);
   ?>
 
   <!-- scroll-to anker mark -->
@@ -28,25 +21,16 @@
   <div class="row content flex">
     <div class="medium-offset-3 medium-7 columns">
       <h3><?php echo $fb_event->name() ?></h3>
+      <p><?php echo kirbytext($fb_event->description()) ?></p>
 
-        <p>
-          <?php
-            if($fromLocal == 'true') {
-              echo $fb_event->description()->kt();
-            }
-            else {
-              echo kirbytext($fb_event->description());
-            }
-          ?>
-        </p>
       <div class="news">
         <img
           src="data:image/png;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="
           data-src="<?php
-            if( ($fromLocal == 'true' AND $news->hasImages() ) AND hash('md5', $fb_event->event_image()) === $news->images()->first()->name() ) {
+            if( ($news->hasImages() ) AND hash('md5', $fb_event->cover()) === $news->images()->first()->name() ) {
               echo thumb($news->images()->first(), ['width' => 690, 'height' => 320, 'crop' => true], false);
             } else {
-             echo thumb($fbe->generateThumbnail($fb_event->event_image(), $news), ['width' => 690, 'height' => 320, 'crop' => true], false);
+              echo thumb($fb_event->cover(), ['width' => 690, 'height' => 320, 'crop' => true], false);
             }
           ?>"
           width="690"
