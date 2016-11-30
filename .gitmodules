@@ -1,6 +1,3 @@
-[submodule "app/site/plugins/fingerprint"]
-	path = app/site/plugins/fingerprint
-	url = https://github.com/iksi/KirbyFingerprint.git
 [submodule "app/site/fields/builder"]
 	path = app/site/fields/builder
 	url = https://github.com/TimOetting/kirby-builder.git
