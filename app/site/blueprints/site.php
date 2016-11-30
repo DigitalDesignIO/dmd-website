@@ -1,7 +1,10 @@
 <?php if(!defined('KIRBY')) exit ?>
 
 title: Site
-pages: false
+pages:
+  max: 10
+options:
+
 fields:
   title:
     label: Title

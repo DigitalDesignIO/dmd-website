@@ -2,6 +2,7 @@
 
 title: Error
 pages: false
+hide: true
 icon: bolt
 
 files: false
