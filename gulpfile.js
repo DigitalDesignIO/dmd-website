@@ -120,7 +120,7 @@ gulp.task('copy', function () {
 
 // generate index.html via curl for inlining the above the fold css
 gulp.task('generate-index', function() {
-  return $.run('curl http://localhost/kirby/dist/ > dist/index.html').exec();
+  return $.run('curl http://localhost/dmd-website/dist/ > dist/index.html').exec();
 })
 
 // inline the above the fold
@@ -188,7 +188,7 @@ gulp.task('watch', function() {
 
 gulp.task('serve', function () {
   $.browserSync({
-    proxy: "localhost/kirby/app",
+    proxy: "localhost/dmd-website/app",
     port: 8080
   });
 
