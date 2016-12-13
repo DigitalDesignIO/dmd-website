@@ -8,8 +8,6 @@
 	    <div class="heading">Social Media</div>
 	    <a href="https://www.facebook.com/digitaldesign.de" class="button facebook icon-facebook"></a>
 	    <br />
-	    <div class="fb-like" data-href="https://www.facebook.com/digitaldesign.de" data-layout="box_count" data-action="like" data-show-faces="true" data-share="false"></div>
-	    <br />
 	  </div>
 	  <div class="medium-4 columns end">
 	    <div class="heading"><?php echo page('footer')->impressum()->html() ?></div>
