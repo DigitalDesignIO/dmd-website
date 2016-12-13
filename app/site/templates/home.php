@@ -5,9 +5,11 @@
 	snippet('header');
 	snippet('slider');
 
-	foreach($pages->visible() as $section) {
-	  snippet($section->uid(), array('data' => $section));
-	}
+	echo '<div id="news"></div>';
+
+	// foreach($pages->visible() as $section) {
+	//   snippet($section->uid(), array('data' => $section));
+	// }
 
 	snippet('footer');
 

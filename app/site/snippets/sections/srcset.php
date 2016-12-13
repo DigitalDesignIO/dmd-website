@@ -1,3 +1,4 @@
+  <?php if($content->picture()->isNotEmpty()): ?>
   <picture>
     <source srcset="<?php echo $content->picture()->toFile()->focusCrop(1920, 960)->url(); ?>" media="(min-width: 1200px)">
     <source srcset="<?php echo $content->picture()->toFile()->focusCrop(1024, 768, 80)->url(); ?>" media="(min-width: 768px)">
@@ -6,3 +7,4 @@
   </picture>
 
   <div class="orbit-caption"><?php echo $content->caption()->kirbytextRaw() ?></div>
+  <?php endif ?>

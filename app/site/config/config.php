@@ -22,10 +22,35 @@ for more information: http://getkirby.com/license
 
 c::set('license', $license);
 
-c::set('debug', false);
+/*---------------------------------------
+Kirby Debug Configuration
+---------------------------------------*/
+
+c::set('debug', true);
 c::set('whoops', false);
 
 c::set('cache', false);
+
+/*---------------------------------------
+Kirby Routing Configuration
+---------------------------------------*/
+
+c::set('routes', array(
+  array(
+      'pattern' => '(:any)/FacebookEvents.php',
+      'action'  => function($uri) {
+        $news = page('news');
+        $fbe = FacebookEvents($news);
+        $events = $fbe->getFacebookEvents('1676014109285451');
+        $fb_event = $fbe->getEvent($events, 0, 'asc', true);
+        snippet('news', array('fb_event' => $fb_event, 'news' => $news));
+
+        // header("content-type:application/json");
+        // echo (json_encode($fb_event));
+      },
+      'method' => 'POST'
+  )
+));
 
 /* hooks */
 

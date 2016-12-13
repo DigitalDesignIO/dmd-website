@@ -1,6 +1,6 @@
   <?php
     // get $page object from kirby
-    $news = $pages->findByURI('news');
+    // $news = $pages->findByURI('news');
 
     $fbe = FacebookEvents($news);
     $events = $fbe->getFacebookEvents('1676014109285451');

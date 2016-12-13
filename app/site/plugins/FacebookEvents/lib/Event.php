@@ -2,7 +2,6 @@
 
   require_once 'Credentials.php';
 
-  // TODO: https://developers.facebook.com/docs/graph-api/webhooks
   class Event {
     private $page_obj = '';
     private $id = '';
@@ -61,9 +60,10 @@
       $this->page_obj = $page;
     }
 
-    // TODO: implement an fallback when the access_token gets invalid
+    //
     /*
-    * fetch Event from Facebook API
+    * TODO: implement an fallback when the access_token gets invalid
+    * Fetches the event from Facebook API laying between "since" and "until"
     */
     public function getFacebookEvents($facebookPageId) {
       $this->fb_page_id = $facebookPageId;
@@ -86,20 +86,36 @@
 
       $json_link = "https://graph.facebook.com/v2.8/{$this->fb_page_id}/events/attending/?fields={$fields}&access_token={$access_token}&since={$since_unix_timestamp}&until={$until_unix_timestamp}";
 
-      // error handling
       $json = file_get_contents($json_link);
-
       $events = json_decode($json, true, 512, JSON_BIGINT_AS_STRING);
 
-      return $events;
+      return $events['data'];
     }
 
-    public function getEvent($events) {
-      date_default_timezone_set("Europe/Berlin");
+    public function getEvent($events, $index = 0, $sort = 'asc', $json = false) {
+      $countEvents = count($events);
 
-      $events = a::sort($events['data'], 'start_time', 'asc');
+      if($countEvents > 0) {
+        $events = a::sort($events, 'start_time', $sort);
+        $event = a::first($events);
+      } else {
+        throw new Error('Error: The given $events -object does not contain any events');
+      }
+      if($countEvents > $index) {
+        $event = a::get($events, $index);
+        if($json === true) {
+          return $event;
+        }
+      } else {
+        throw new Error('Error: The given index does not match any of the events entries. Given Index: ' . $index);
+      }
+      $this->setEventProperties($event);
+      $this->setTimeProperties($event);
 
-      $event = a::first($events);
+      return $this;
+    }
+
+    private function setEventProperties($event) {
       $this->id = isset($event['id']) ? $event['id'] : '';
       $this->name = isset($event['name']) ? $event['name'] : '';
       $this->description = isset($event['description']) ? $event['description'] : '';
@@ -107,11 +123,13 @@
       $this->place_city = isset($event['place']['location']['city']) ? $event['place']['location']['city'] : '';
       $this->place_street = isset($event['place']['location']['street']) ? $event['place']['location']['street'] : '';
       $this->end_date = isset($event['end_time']) ? $event['end_time'] : '';
-      $this->event_url = "https://facebook.com/events/{$event['id']}/";
+      $this->event_url = isset($event['id']) ? "https://facebook.com/events/{$event['id']}/" : '';
 
       $this->cover = $this->getCoverImage($event, $this->page_obj);
+    }
 
-
+    private function setTimeProperties($event) {
+      date_default_timezone_set("Europe/Berlin");
       if(isset($event['start_time'])) {
         $start_date = $this->parseFacebookDateFormat($event['start_time']);
         $this->start_date_day = $start_date['day'];
@@ -121,14 +139,10 @@
         $this->start_date_time = $start_date['time'];
         $this->start_date = $start_date;
       }
-
       if(isset($event['end_time'])) {
         $this->end_date = $this->parseFacebookDateFormat($event['end_time']);
       }
-
       $this->expires = date('Y-m-d 12:00', strtotime('+1 day'));
-
-      return $this;
     }
 
     private function getCoverImage($event, $page) {
@@ -136,7 +150,7 @@
         $url = $event['cover']['source'];
         $cover = $this->generateThumbnail($url, $page);
       } else {
-        $cover = undefined;
+        $cover = false;
       }
       return $cover;
     }

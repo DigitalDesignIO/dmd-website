@@ -18,6 +18,20 @@
     g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
   })();
 
+
+var request = new XMLHttpRequest();
+var url = "dmd-website/FacebookEvents.php";
+request.open("POST", url, true);
+request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+
+request.onreadystatechange = function() {//Call a function when the state changes.
+    if(request.readyState == 4 && request.status == 200) {
+      console.log(request.responseText);
+      // var data = JSON.parse(request.responseText);
+      // console.log(data);
+    }
+}
+request.send();
 // jshint ignore: start
 /*! Picturefill - v2.2.0-beta - 2014-11-19
 * http://scottjehl.github.io/picturefill
