@@ -128,13 +128,15 @@ gulp.task('critical', ['generate-index'], function (cb) {
     var data = JSON.parse(fs.readFileSync('dist/styles-manifest.json', 'utf8'));
     critical.generate({
         inline: false,
-        base: '.',
+        base: 'dist/',
         css: ['dist/assets/css/' + data['main.css']],
-        src: 'dist/index.html',
+        src: 'index.html',
         dest: 'dist/assets/css/inline.css',
+        assetPaths: '/assets/',
         minify: true,
         width: 375,
-        height: 600
+        height: 600,
+        ignore: ['@font-face']
     });
 });
 
