@@ -1,6 +1,6 @@
 
 var request = new XMLHttpRequest();
-var url = "FacebookEvents.php";
+var url = "dmd-website/FacebookEvents.php";
 request.open("POST", url, true);
 request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
 
