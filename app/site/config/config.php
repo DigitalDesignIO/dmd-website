@@ -42,8 +42,8 @@ c::set('routes', array(
         $news = page('news');
         $fbe = FacebookEvents($news);
         $events = $fbe->getFacebookEvents('1676014109285451');
-        $fb_event = $fbe->getEvent($events, 0, 'asc', true);
-        snippet('news', array('fb_event' => $fb_event, 'news' => $news));
+        $fb_event = $fbe->getEvent($events, 0, 'asc', false);
+        snippet('sections/contentnews', array('fb_event' => $fb_event, 'news' => $news));
 
         // header("content-type:application/json");
         // echo (json_encode($fb_event));

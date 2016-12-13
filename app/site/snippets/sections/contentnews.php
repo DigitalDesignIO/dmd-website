@@ -1,22 +1,3 @@
-<?php
-  // get $page object from kirby
-  // $news = $pages->findByURI('news');
-
-  $fbe = FacebookEvents($news);
-  $events = $fbe->getFacebookEvents('1676014109285451');
-  $fb_event = $fbe->getEvent($events);
-?>
-
-<!-- scroll-to anker mark -->
-<span data-magellan-destination="<?php echo $news->title()->html() ?>">
-  <a name="<?php echo $news->title()->html() ?>"></a>
-</span>
-
-<!-- ./content-block -->
-<div class="row">
-  <div class="medium-12 columns"><h4><?php echo $news->title()->html() ?></h4></div>
-  <div class="medium-12 columns"><h5><?php echo $news->headline()->html() ?></h5></div>
-</div>
 
 <div class="row content flex">
   <div class="medium-offset-3 medium-7 columns">
@@ -25,8 +6,7 @@
 
     <div class="news">
       <img
-        src="data:image/png;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="
-        data-src="<?php
+        src="<?php
           if( ($news->hasImages() ) AND hash('md5', $fb_event->cover()) === $news->images()->first()->name() ) {
             echo thumb($news->images()->first(), ['width' => 690, 'height' => 320, 'crop' => true], false);
           } else {
@@ -66,9 +46,3 @@
   </div>
 </div>
 
-<div class="row content">
-  <div class="medium-offset-3 medium-7 columns">
-    <p class="text-center"><a class="icon-link-ext button round" target="_blank" href="https://www.facebook.com/digitaldesign.de/events">Alle Termine</a></p>
-  </div>
-</div>
-<!-- ./content-block -->

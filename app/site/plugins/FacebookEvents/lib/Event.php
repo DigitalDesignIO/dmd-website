@@ -92,7 +92,7 @@
       return $events['data'];
     }
 
-    public function getEvent($events, $index = 0, $sort = 'asc', $json = false) {
+    public function getEvent($events, $index = 0, $sort = 'asc') {
       $countEvents = count($events);
 
       if($countEvents > 0) {
@@ -103,9 +103,6 @@
       }
       if($countEvents > $index) {
         $event = a::get($events, $index);
-        if($json === true) {
-          return $event;
-        }
       } else {
         throw new Error('Error: The given index does not match any of the events entries. Given Index: ' . $index);
       }
