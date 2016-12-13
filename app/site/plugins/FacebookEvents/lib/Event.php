@@ -1,6 +1,6 @@
 <?php
 
-  require_once 'Credentials.php';
+  require_once 'FacebookApi.php';
 
   class Event {
     private $page_obj = '';
@@ -16,13 +16,14 @@
     private $start_date_day = '';
     private $start_date_year = '';
     private $start_date_time = '';
+    private $start_date_raw = '';
     private $cover = '';
     private $end_date = '';
     private $event_url = '';
     private $event_endtime_id = '';
     private $local = '';
     private $expires = '';
-    private $fb_page_id;
+    private $fb_page_id = 0;
 
     public function event_url() { return $this->event_url; }
 
@@ -50,11 +51,11 @@
 
     public function start_date_time() { return $this->start_date_time; }
 
+    public function start_date_raw() { return $this->start_date_raw; }
+
     public function cover() { return $this->cover; }
 
     public function end_date() { return $this->end_date; }
-
-    public function local() { return $this->local; }
 
     public function __construct($page) {
       $this->page_obj = $page;
@@ -62,41 +63,21 @@
 
     //
     /*
-    * TODO: implement an fallback when the access_token gets invalid
+    * TODO: call fb API via ajax (asynchronous)
     * Fetches the event from Facebook API laying between "since" and "until"
     */
-    public function getFacebookEvents($facebookPageId) {
-      $this->fb_page_id = $facebookPageId;
+    public function getFacebookEvents($facebookPageId, $sort = 'asc') {
+      $fb_api = new FacebookApi();
+      $events = $fb_api->requestEvents($facebookPageId);
+      $events = a::sort($events, 'start_time', $sort);
 
-      $credentials = new Credentials();
-      $app_secret = $credentials->getApp_secret();
-      $app_id = $credentials->getApp_id();
-      $access_token = $credentials->getAccess_token();
-
-      // specify the "since" and "until" dates to get the events
-      $year_range = 1;
-      $since_date = date('Y-m-d', strtotime("now"));
-      $until_date = date('Y-06-01', strtotime('+' . $year_range . ' years'));
-
-      // unix timestamp years for the fb api
-      $since_unix_timestamp = strtotime($since_date);
-      $until_unix_timestamp = strtotime($until_date);
-
-      $fields = "id,name,description,place,timezone,start_time,end_time,cover";
-
-      $json_link = "https://graph.facebook.com/v2.8/{$this->fb_page_id}/events/attending/?fields={$fields}&access_token={$access_token}&since={$since_unix_timestamp}&until={$until_unix_timestamp}";
-
-      $json = file_get_contents($json_link);
-      $events = json_decode($json, true, 512, JSON_BIGINT_AS_STRING);
-
-      return $events['data'];
+      return $events;
     }
 
-    public function getEvent($events, $index = 0, $sort = 'asc') {
+    public function getEvent($events, $index = 0) {
       $countEvents = count($events);
 
       if($countEvents > 0) {
-        $events = a::sort($events, 'start_time', $sort);
         $event = a::first($events);
       } else {
         throw new Error('Error: The given $events -object does not contain any events');
@@ -134,6 +115,7 @@
         $this->start_date_year = $start_date['year'];
         $this->start_date_humanized = $start_date['date'];
         $this->start_date_time = $start_date['time'];
+        $this->start_date_raw = $start_date['raw_date'];
         $this->start_date = $start_date;
       }
       if(isset($event['end_time'])) {
@@ -147,7 +129,7 @@
         $url = $event['cover']['source'];
         $cover = $this->generateThumbnail($url, $page);
       } else {
-        $cover = false;
+        $cover = '';
       }
       return $cover;
     }
@@ -170,8 +152,7 @@
 
       // remove the ':00+0100' part from the time value '13:00:00+0100'
       $time = a::first(preg_split("/\:[0-9]{2}\+[0-9]{1,4}/", $time));
-
-      $date_id = $date . ' ' . $time . ':00';
+      $raw_date = $date . ' ' . $time . ':00';
 
       // set the date format to '2016-01-31' so the parser does recognizes it
       $format = date_create_from_format('Y-m-d', $date);
@@ -181,30 +162,23 @@
       $month = date_format($format, 'M');
       $year = date_format($format, 'Y');
 
-      return ['date' => $date, 'time' => $time, 'day' => $day, 'month' => $month, 'year' => $year, 'date_id' => $date_id];
+      return ['date' => $date, 'time' => $time, 'day' => $day, 'month' => $month, 'year' => $year, 'raw_date' => $raw_date];
     }
 
     public function generateThumbnail($imageUrl, $page) {
-      // some image url for testing purposes
-      // $imageUrl = "https://scontent-frt3-1.xx.fbcdn.net/t31.0-8/14714803_1876588675894659_4416670865134567220_o.jpg";
-
       // create an md5 hash for the filename (hashes are unique)
       $imageName = hash('md5', $imageUrl);
 
-      // check if there are images in folder content/1-news/**
-      if($image = $page->images()->first()) {
-        // echo 'pictures ' . $image->name() . ' exists<br>';
-        if($image->name() === $imageName) {
-          // echo 'image you want to create, already existed -> return<br>';
+      // check if there are images in folder 'content/$page/**'
+      if($images = $page->images()) {
+        if($image = $images->findBy('name', $imageName)) {
+          // echo 'image with name: ' . $image->name() . ' you wanted to create, already existed -> return<br>';
           return $image;
         }
         // the image name (hash) does not match the existing one,
         // so we need to update the event image and replace it with the new one
         else {
           try {
-            // replace the image with the new one
-            $image->delete();
-            // echo 'The file has been deleted <br>';
             return $this->createImage($imageUrl, $page, $imageName);
 
           } catch(Exception $e) {
@@ -222,7 +196,7 @@
       // fetch the event header image from the facebook event page
       $imageData = file_get_contents($imageUrl);
 
-      // save the file to the kirby filesystem 'content/1-news/**'
+      // save the file to the kirby filesystem 'content/$page/**'
       file_put_contents($page->root() . DS . f::safeName($imageName) . '.jpg', $imageData);
       $image = new File($page->images(), f::safeName($imageName) . '.jpg');
 
