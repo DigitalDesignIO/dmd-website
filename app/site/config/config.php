@@ -42,7 +42,7 @@ c::set('routes', array(
         $news = page('news');
         $fbe = FacebookEvents($news);
         $events = $fbe->getFacebookEvents('1676014109285451');
-        $fb_event = $fbe->getEvent($events);
+        $fb_event = $fbe->getEvent($events, 0);
         snippet('sections/contentnews', array('fb_event' => $fb_event, 'news' => $news));
       },
       'method' => 'POST'

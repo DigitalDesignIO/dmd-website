@@ -1,4 +1,3 @@
-
 <div class="row content flex">
   <div class="medium-offset-3 medium-7 columns">
     <h3><?php echo $fb_event->name() ?></h3>
