@@ -67,10 +67,12 @@ gulp.task('defer', function(){
         .pipe($.size());
 });
 
-// adjust the javascript and css linking so they match their minified version (via regex)
-// vendor.js => vendor.min.js
-// defer.js => defer.min.js
-// main.css => main.min.css
+// adjust the javascript and css links so they match their minified and chache busted version (via regex)
+// for doing this we read the mapping files in the dist/ folder (scripts-mainfest, styles-manifest)
+// examples:
+// vendor.js => vendor.min-554bb67f.js
+// defer.js => defer.min-0f41e51e.js
+// main.css => main-eb4efaf0.css
 gulp.task('rewrite', function(){
     var styles = JSON.parse(fs.readFileSync('dist/styles-manifest.json', 'utf8'));
     var scripts = JSON.parse(fs.readFileSync('dist/scripts-manifest.json', 'utf8'));
@@ -81,14 +83,15 @@ gulp.task('rewrite', function(){
         .pipe(gulp.dest('./')); //Write the file back to the same spot.
 });
 
-// requires graphicsmagick http://www.graphicsmagick.org/download.html
+// requires graphicsmagick http://www.graphicsmagick.org/download.html on your machine
+// careful your images will get overwritten ()
 // brew install graphicsmagick
 gulp.task('imageResize', function() {
   gulp.src(['app/assets/images/**/*.jpg', 'app/assets/images/**/*.png'])
     .pipe($.gm(function (gmfile) {
       return gmfile.resize(1920);
     }))
-    .pipe(gulp.dest('dist/assets/images/'))
+    .pipe(gulp.dest('app/assets/images/'))
 });
 
 gulp.task('images', function () {
@@ -123,7 +126,7 @@ gulp.task('generate-index', function() {
   return $.run('curl http://localhost/dmd-website/dist/ > dist/index.html').exec();
 })
 
-// inline the above the fold
+// inline the above the fold and output the generated css into inline.css
 gulp.task('critical', ['generate-index'], function (cb) {
     var data = JSON.parse(fs.readFileSync('dist/styles-manifest.json', 'utf8'));
     critical.generate({
@@ -149,7 +152,7 @@ gulp.task('fonts', function () {
         .pipe($.size());
 });
 
-// Clean dist Directory
+// Clean dist directory
 gulp.task('clean', $.del.bind(null, ['dist']));
 
 // delete the output folder which curl creates
