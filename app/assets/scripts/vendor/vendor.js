@@ -1476,9 +1476,14 @@ function a(b,d){function e(a,b){return function(){return a.apply(b,arguments)}}v
 
 	  if(clientWidth > 1024) {
 	    clientHeight = clientHeight - navigation.clientHeight - 14;
-	  } else {
+	  }
+		else {
 	    clientHeight = clientHeight - navigation.clientHeight;
 	  }
+
+		if(clientHeight < 600) {
+			clientHeight = 800;
+		}
 
 	  /* set orbit wrapper height, so the image fills the whole screen */
 	  orbitWrap.setAttribute('style', 'height: '+ clientHeight +'px;');
