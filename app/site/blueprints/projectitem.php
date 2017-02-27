@@ -17,29 +17,38 @@ fields:
       subpage: Subpage
       singlepage: Singlepage
     help: Das auswählen dieses Typs beeinflusst die Darstellungsweise im Linken Menü. Siehe dir dieses Bild an für ein genaues Verständnis dafür http://digitalmediadesign.io/assets/images/formatting.jpg
-      
+
   Text:
     extends: textsansheadline
     required: false
     label: Fließtext
-    
+
   Builder:
     label: Zusätzlicher Inhalt
     type: builder
     modalsize: large
-    
+
     fieldsets:
+      contentprojecttext:
+        label: Text
+        entry: >
+          {{contenttext}}
+        fields:
+          contenttext:
+            extends: blocktext
+            label: Text
+
       contentprocessing:
         label: Processing IFrame
         entry: >
           {{caption}}
         fields:
-          caption: 
+          caption:
             extends: caption
             label: Processing Caption
             help: Kurze beschreibung des Sketches
           pfile: processingFile
-      
+
       contentprojectimage:
         label: Zusätzliches Bild
         entry: >
@@ -50,11 +59,11 @@ fields:
           {{caption}}
         fields:
           picture: picture
-          caption: 
+          caption:
             extends: caption
             label: Bildbeschreibung
             help: Kurze beschreibung des Bildes
-      
+
       contentprojectvimeo:
         label: Video von Vimeo
         entry: >
@@ -65,13 +74,13 @@ fields:
             type: number
             required: true
             help: Vimeo videos haben folgendes Format - https://vimeo.com/15711020. Die letzte Nummer ist die benötigte ID
-          vimeocaption: 
+          vimeocaption:
             extends: caption
             label: Video caption
             help: Kurze beschreibung des Videos
-          
+
       contentprojectyoutube:
-        label: Video von Youtube 
+        label: Video von Youtube
         entry: >
           {{youtubecaption}}
         fields:
@@ -84,7 +93,7 @@ fields:
             extends: caption
             label: Video caption
             help: Kurze beschreibung des Videos
-            
+
       contentprojectvideo:
         label: Video
         entry: >
@@ -112,7 +121,7 @@ fields:
           <div style="text-align: center;">
             <a href="{{sketchfabmodel}}" target="_blank">Source: {{sketchfabmodel}}</a><br>
             <br>
-            <iframe width="590" height="350" src="{{sketchfabmodel}}/embed" 
+            <iframe width="590" height="350" src="{{sketchfabmodel}}/embed"
                 frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" onmousewheel="">
             </iframe>
           </div>

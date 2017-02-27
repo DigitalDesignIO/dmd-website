@@ -10,7 +10,7 @@
 	</script>
 
 	<!-- build:js(app) scripts/vendor_projects.js async -->
-	<script src="scripts/vendor/bootstrap.min.js"></script>
+	<?php echo js('assets/scripts/vendor/bootstrap.min.js', false); ?>
 	<!-- endbuild -->
 
 </body>
