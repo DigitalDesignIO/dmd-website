@@ -8,6 +8,7 @@ $table-secondary: #49f;
 $table-choice: #008080;
 $body-bg: #faf8fa;
 $white: #fff;
+$project-caption: #666;
 $light-white: #888;
 $darker-white: #ddd;
 $black: #222;
@@ -68,7 +69,7 @@ $color-facebook-hover: #415A8F;
   }
 }
 
-@media #{$small-only} { 
+@media #{$small-only} {
   .margin-bottom-50-xs-only {
     margin-bottom: 50px;
   }
