@@ -5,8 +5,6 @@
 	snippet('header');
 	snippet('slider');
 
-	// echo '<div id="fb-news"></div>';
-
 	foreach($pages->visible() as $section) {
 	  snippet($section->uid(), array('data' => $section));
 	}

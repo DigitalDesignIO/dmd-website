@@ -37,7 +37,7 @@ Kirby Routing Configuration
 
 c::set('routes', array(
   array(
-      'pattern' => '(:any)/FacebookEvents.php',
+      'pattern' => '(:all)/FacebookEvents.php',
       'action'  => function($uri) {
         $news = page('news');
         $fbe = FacebookEvents($news);
