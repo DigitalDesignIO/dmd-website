@@ -5,8 +5,10 @@
 	    <div class="heading"><?php echo page('footer')->contact()->html() ?></div>
 	    <?php echo page('footer')->secretaryText()->kirbytext() ?>
 
-	    <div class="heading">Social Media</div>
-	    <a href="https://www.facebook.com/digitaldesign.de" class="button facebook icon-facebook"></a>
+	    <div class="heading">Find us on</div>
+	    <a href="https://www.facebook.com/digitaldesign.de" target="_blank"><i class="icon icon-facebook-rect"></i></a>
+			<a href="https://www.instagram.com/digitalmediadesign.io/" target="_blank"><i class="icon icon-instagram"></i></a>
+			<a href="https://github.com/DigitalDesignIO/dmd-website" target="_blank"><i class="icon icon-github"></i></a>
 	    <br />
 	  </div>
 	  <div class="medium-4 columns end">

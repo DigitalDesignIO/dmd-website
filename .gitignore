@@ -9,3 +9,4 @@ dist/
 .vscode/
 thumbs/
 **/Credentials.php
+wiki/**
