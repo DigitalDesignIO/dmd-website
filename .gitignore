@@ -8,5 +8,4 @@ node_modules
 dist/
 .vscode/
 thumbs/
-**/Credentials.php
 wiki/**
