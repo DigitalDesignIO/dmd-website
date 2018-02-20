@@ -6,7 +6,7 @@
 	    <?php echo page('footer')->secretaryText()->kirbytext() ?>
 
 	    <div class="heading">Find us on</div>
-	    <a href="https://www.facebook.com/digitaldesign.de" target="_blank"><i class="icon icon-facebook-rect"></i></a>
+	    	<a href="https://www.facebook.com/digitaldesign.de" target="_blank"><i class="icon icon-facebook-rect"></i></a>
 			<a href="https://www.instagram.com/digitalmediadesign.io/" target="_blank"><i class="icon icon-instagram"></i></a>
 			<a href="https://github.com/DigitalDesignIO/dmd-website" target="_blank"><i class="icon icon-github"></i></a>
 	    <br />
@@ -14,7 +14,10 @@
 	  <div class="medium-4 columns end">
 	    <div class="heading"><?php echo page('footer')->impressum()->html() ?></div>
 	    <?php echo page('footer')->impressumText()->kirbytext() ?>
-
+	    <!-- SSL cetrificate batch -->
+		<a href="https://www.checkdomain.de/unternehmen/garantie/ssl/popup/" onclick="window.open(this.href + '?host=' + window.location.host,'','height=600,width=560,scrollbars=yes'); return false;">
+    			<img src="https://cdn.checkdomain.de/img/business/guarantee/ssl-150x150.png" width="75px" height="75px" alt="SSL-Zertifikat" />
+		</a>
 	  </div>
 	</div>
 	<!-- ./footer -->
