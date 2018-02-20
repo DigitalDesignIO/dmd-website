@@ -143,7 +143,7 @@ gulp.task('critical', ['generate-index'], function (cb) {
         base: 'dist/',
         css: ['dist/assets/css/' + data['main.css']],
         src: 'index.html',
-        dest: 'dist/assets/css/inline.css',
+        dest: 'assets/css/inline.css',
         assetPaths: '/assets/',
         minify: true,
         width: 375,
