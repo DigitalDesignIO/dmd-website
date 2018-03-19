@@ -1,9 +1,12 @@
 <?php 
 
+use Kirby\Panel\Snippet;
+
 $site    = panel()->site();
 $options = array();
+$pages   = $site->ui()->pages();
 
-if($site->canHaveSubpages()) {
+if($pages) {
   $options[] = array(
     'text' => l('dashboard.index.pages.edit'),
     'icon' => 'pencil',
@@ -24,13 +27,19 @@ if($addbutton = $site->addButton()) {
 return array(
   'title' => array(
     'text'       => l('dashboard.index.pages.title'),
-    'link'       => $site->url('subpages'),
+    'link'       => $pages ? $site->url('subpages') : false,
     'compressed' => true
   ),
   'options' => $options,
   'html'  => function() use($site) {
-    return tpl::load(__DIR__ . DS . 'pages.html.php', array(
-      'pages' => $site->children()->paginated('sidebar')
+    $pages = $site->children()->paginated('sidebar');
+
+    $pagination = new Snippet('pagination', array(
+      'pagination' => $pages->pagination(),
+      'nextUrl'    => $pages->pagination()->nextPageUrl(),
+      'prevUrl'    => $pages->pagination()->prevPageUrl(),
     ));
+
+    return tpl::load(__DIR__ . DS . 'pages.html.php', compact('pages', 'pagination'));
   }
 );

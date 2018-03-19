@@ -1,5 +1,14 @@
 'use strict';
 
+
+// path to local host
+// It needs to be edited for build routines to run
+
+var host = "localhost/2018/Update/dmd-website/";
+var port = 8888;
+var hostPort = "localhost:8888/2018/Update/dmd-website/";
+
+
 var gulp = require('gulp'),
 fs = require('fs'),
 hash = require('gulp-hash'),
@@ -123,7 +132,7 @@ gulp.task('copy', function () {
 
 // generate index.html via curl for inlining the above the fold css
 gulp.task('generate-index', function() {
-  return $.run('curl http://localhost/dmd-website/dist/ > dist/index.html').exec();
+  return $.run('curl ' + hostPort + 'dist/ > dist/index.html').exec();
 })
 
 // inline the above the fold and output the generated css into inline.css
@@ -134,7 +143,7 @@ gulp.task('critical', ['generate-index'], function (cb) {
         base: 'dist/',
         css: ['dist/assets/css/' + data['main.css']],
         src: 'index.html',
-        dest: 'dist/assets/css/inline.css',
+        dest: 'assets/css/inline.css',
         assetPaths: '/assets/',
         minify: true,
         width: 375,
@@ -193,8 +202,8 @@ gulp.task('watch', function() {
 
 gulp.task('serve', function () {
   $.browserSync({
-    proxy: "localhost/dmd-website/app",
-    port: 8080
+    proxy: host + 'app/',
+    port: port
   });
 
   // watch for changes

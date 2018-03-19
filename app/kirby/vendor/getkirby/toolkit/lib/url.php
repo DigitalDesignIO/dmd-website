@@ -83,7 +83,7 @@ class Url {
     // to trick the url parser. It's a bit hacky but it works
     if(!static::isAbsolute($url)) $url = 'http://0.0.0.0/' . $url;
 
-    return trim(parse_url($url, PHP_URL_PATH), '/');
+    return ltrim(parse_url($url, PHP_URL_PATH), '/');
 
   }
 
@@ -168,11 +168,30 @@ class Url {
     $parts  = array_merge($defaults, $parts);
     $result = array(r(!empty($parts['scheme']), $parts['scheme'] . '://') . $parts['host'] . r(!empty($parts['port']), ':' . $parts['port']));
 
-    if(!empty($parts['fragments'])) $result[] = implode('/', $parts['fragments']);
-    if(!empty($parts['params']))    $result[] = static::paramsToString($parts['params']);
-    if(!empty($parts['query']))     $result[] = '?' . static::queryToString($parts['query']);
+    if(!empty($parts['fragments'])) {
+      $fragments = implode('/', $parts['fragments']);
+      
+      // prevent double slashes if params follow after the fragments
+      if(!empty($parts['params'])) $fragments = rtrim($fragments, '/');
+      
+      $result[] = $fragments;
+    }
+    
+    if(!empty($parts['params'])) {
+      $result[] = static::paramsToString($parts['params']);
+    }
 
-    return implode('/', $result) . (!empty($parts['hash']) ? '#' . $parts['hash'] : '');
+    // make sure that URLs without any URI end with a slash after the host
+    if(count($result) === 1) {
+      $result = $result[0] . '/';
+    } else {
+      $result = implode('/', $result);
+    }
+
+    if(!empty($parts['query'])) $result .= '?' . static::queryToString($parts['query']);
+    if(!empty($parts['hash']))  $result .= '#' . $parts['hash'];
+
+    return $result;
 
   }
 
@@ -359,8 +378,8 @@ class Url {
   }
 
   /**
-   * Tries to convert an internationalized domain name to
-   * the UTF8 representation
+   * Tries to convert a URL with an internationalized domain
+   * name to the human-readable UTF8 representation
    * Requires the intl PHP extension
    *
    * @param string $url
@@ -368,11 +387,36 @@ class Url {
    */
   public static function idn($url) {
 
-    if(static::isAbsolute($url)) $url = static::short($url);
-
     if(!function_exists('idn_to_utf8')) return $url;
-    return idn_to_utf8($url);
 
+    // disassemble the URL, convert the domain name and reassemble
+    $variant = defined('INTL_IDNA_VARIANT_UTS46') ? INTL_IDNA_VARIANT_UTS46 : INTL_IDNA_VARIANT_2003;
+    $host = idn_to_utf8(static::host($url), 0, $variant);
+    if($host === false) return $url;
+    $url  = static::build(['host' => $host], $url);
+
+    return $url;
+
+  }
+
+  /**
+   * Tries to convert a URL with an internationalized domain
+   * name to the machine-readable Punycode representation
+   *
+   * @param string $url
+   * @return string
+   */
+  public static function unIdn($url) {
+
+    if(!function_exists('idn_to_ascii')) return $url;
+
+    // disassemble the URL, convert the domain name and reassemble
+    $variant = defined('INTL_IDNA_VARIANT_UTS46') ? INTL_IDNA_VARIANT_UTS46 : INTL_IDNA_VARIANT_2003;
+    $host = idn_to_ascii(static::host($url), 0, $variant);
+    if($host === false) return $url;
+    $url  = static::build(['host' => $host], $url);
+
+    return $url;
   }
 
   /**

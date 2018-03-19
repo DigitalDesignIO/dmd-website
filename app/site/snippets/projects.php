@@ -43,7 +43,19 @@
             <?php  ?>
           </div>
         <?php endforeach ?>
+      
+      <!-- instagramm link tile -->
 
+          <div class="medium-12 large-6 columns">
+            <figure class="effect-digitaldesign">
+                <img src="https://digitalmediadesign.io/content/1-projects/test/findusoninstagram.png" height="355" width="250" alt="Digital Media Design Logo">
+              <figcaption>
+                <h2>Instagram</h2>
+                <p>There are more projects to discover on instagram.</p>
+                <a href="https://www.instagram.com/digitalmediadesign.io/" target="_blank" >View more</a>
+              </figcaption>
+            </figure>
+          </div>
 
         </div>
       </div>
